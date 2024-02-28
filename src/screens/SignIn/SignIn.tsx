@@ -46,7 +46,7 @@ export const SignIn = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  // const { login } = useAuth();
+  const { login } = useAuth();
 
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
@@ -68,7 +68,7 @@ export const SignIn = () => {
 
       setLoading(true);
 
-      // await login(data);
+      await login(data);
 
       // dispatch(loginToAuthRequest(data));
 

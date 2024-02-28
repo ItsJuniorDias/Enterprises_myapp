@@ -40,13 +40,13 @@ export const useAuth = (): UseAuth => {
     loading: true,
   });
 
-  useEffect(() => {
-    const unsubscribe = auth().onAuthStateChanged((user) => {
-      setAuthState({ user, loading: false });
-    });
+  // useEffect(() => {
+  //   const unsubscribe = auth().onAuthStateChanged((user) => {
+  //     setAuthState({ user, loading: false });
+  //   });
 
-    return unsubscribe;
-  }, []);
+  //   return unsubscribe;
+  // }, []);
 
   const createUser = async (props: CreateUserProps): Promise<User> => {
     const { email, password } = props;
@@ -56,8 +56,6 @@ export const useAuth = (): UseAuth => {
       password
     );
 
-    console.log(response, 'CREATE USER AUTH');
-
     return response.user;
   };
 
@@ -65,8 +63,6 @@ export const useAuth = (): UseAuth => {
     const { email, password } = props;
 
     const response = await auth().signInWithEmailAndPassword(email, password);
-
-    console.log(response, 'LOGIN USER');
 
     return response.user;
   };
