@@ -3,8 +3,8 @@ import { fireEvent, render } from '@testing-library/react-native';
 import { Home } from '../Home/Home';
 import { Provider } from 'react-redux';
 import { combineReducers, createStore, Reducer } from 'redux';
-import { IEnterpriseState } from 'store/modules/enterprise/types';
-import produce from 'immer';
+import { IEnterpriseState } from '../../store/modules/enterprise/types';
+import { produce } from 'immer';
 
 const mockNavigation = jest.fn();
 jest.mock('@react-navigation/native', () => ({

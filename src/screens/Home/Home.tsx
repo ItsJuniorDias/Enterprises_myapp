@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Image, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { IShow } from 'store/modules/show/types';
+import { IShow } from '../../store/modules/show/types';
 import exit from '../../assets/Vector.png';
 import not from '../../assets/not.png';
 import { logoutUser } from '../../store/modules/auth/actions';
@@ -10,7 +10,7 @@ import { IEnterprise } from '../../store/modules/enterprise/types';
 import { requestShow } from '../../store/modules/show/actions';
 import { InputSearch } from '../../components';
 
-import { useAuth } from 'hooks';
+import { useAuth } from '../../hooks';
 
 import {
   Container,

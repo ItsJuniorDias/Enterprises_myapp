@@ -2,9 +2,9 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
 import { Show } from './Show';
 import { Provider } from 'react-redux';
-import produce from 'immer';
+import { produce } from 'immer';
 import { combineReducers, createStore } from 'redux';
-import { IShowState } from 'store/modules/show/types';
+import { IShowState } from '../../store/modules/show/types';
 
 jest.mock('react-native-linear-gradient', () => {});
 

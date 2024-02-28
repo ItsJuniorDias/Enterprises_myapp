@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from 'theme';
+import { theme } from '../../theme';
 import 'jest-styled-components';
 import { Button } from '../Button/Button';
 

@@ -1,4 +1,4 @@
-import produce from 'immer';
+import { produce } from 'immer';
 import { Reducer } from 'react';
 import { IShowState, ActionTypes } from './types';
 

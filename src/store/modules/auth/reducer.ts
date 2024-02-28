@@ -1,5 +1,5 @@
 import { Reducer } from 'react';
-import produce from 'immer';
+import { produce } from 'immer';
 import { ActionTypes, IAuthState } from './types';
 
 export const INITIAL_STATE: IAuthState = {

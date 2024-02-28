@@ -3,7 +3,7 @@ import { Form } from '@unform/mobile';
 import React, { useRef } from 'react';
 import { Pressable, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import { theme } from 'theme';
+import { theme } from '../../theme';
 import { Button } from '../../components';
 import Input from '../../components/Input/Input';
 import { useAuth } from '../../hooks';
