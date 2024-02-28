@@ -1,0 +1,232 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Behavior Show render snapshot 1`] = `
+<RCTSafeAreaView
+  emulateUnlessSupported={true}
+  style={
+    Array [
+      Object {
+        "flexBasis": 0,
+        "flexGrow": 1,
+        "flexShrink": 1,
+      },
+    ]
+  }
+>
+  <RCTScrollView>
+    <View>
+      <View
+        style={
+          Array [
+            Object {
+              "paddingBottom": 0,
+              "paddingLeft": 22,
+              "paddingRight": 22,
+              "paddingTop": 0,
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "height": 160,
+                "width": "100%",
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "flexDirection": "row",
+                  "justifyContent": "space-between",
+                  "marginTop": 24,
+                  "width": "100%",
+                },
+              ]
+            }
+          >
+            <View
+              accessible={true}
+              focusable={true}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "borderRadius": 50,
+                  "height": 35,
+                  "justifyContent": "center",
+                  "opacity": 1,
+                  "width": 35,
+                }
+              }
+              testID="buttonTouchable_testID"
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../src/assets/arrow.png",
+                  }
+                }
+              />
+            </View>
+            <View
+              accessible={true}
+              focusable={false}
+              onClick={[Function]}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "borderRadius": 50,
+                  "height": 35,
+                  "justifyContent": "center",
+                  "opacity": 1,
+                  "width": 35,
+                }
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "testUri": "../../../src/assets/Overflow.png",
+                  }
+                }
+              />
+            </View>
+          </View>
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#0d253c",
+                  "fontFamily": "Poppins-SemiBold",
+                  "fontSize": 24,
+                  "marginLeft": 8,
+                  "marginTop": 24,
+                },
+              ]
+            }
+          >
+            C6 Bank
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "height": 219,
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <Image
+          source={
+            Object {
+              "uri": "https://empresas.ioasys.com.br/",
+            }
+          }
+          style={
+            Array [
+              Object {
+                "borderTopLeftRadius": 28,
+                "borderTopRightRadius": 28,
+                "height": 219,
+                "width": "100%",
+                "zIndex": 1,
+              },
+            ]
+          }
+        />
+        <View
+          style={
+            Array [
+              Object {
+                "borderTopLeftRadius": 28,
+                "borderTopRightRadius": 28,
+                "height": 219,
+                "position": "absolute",
+                "width": "'100%'",
+              },
+            ]
+          }
+        />
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "rgba(0, 0, 0, 0.2)",
+                "borderTopLeftRadius": 28,
+                "borderTopRightRadius": 28,
+                "height": 219,
+                "position": "absolute",
+                "width": "100%",
+                "zIndex": 5,
+              },
+            ]
+          }
+        />
+      </View>
+      <View
+        style={
+          Array [
+            Object {
+              "paddingBottom": 0,
+              "paddingLeft": 30,
+              "paddingRight": 30,
+              "paddingTop": 0,
+              "width": "100%",
+            },
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "rgba(0, 0, 0, 0.2)",
+                "borderRadius": 16,
+                "height": 30,
+                "marginTop": 32,
+                "width": 80,
+              },
+            ]
+          }
+        />
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "#2d4379",
+                "fontFamily": "Poppins-Regular",
+                "fontSize": 14,
+                "lineHeight": 24,
+                "marginBottom": 16,
+                "marginTop": 18,
+              },
+            ]
+          }
+        >
+          O C6 Bank é uma instituição financeira com sede em São Paulo.
+        </Text>
+      </View>
+    </View>
+  </RCTScrollView>
+</RCTSafeAreaView>
+`;

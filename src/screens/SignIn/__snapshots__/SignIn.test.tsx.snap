@@ -1,0 +1,410 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Behavior SignIn render snapshot 1`] = `
+<RCTScrollView
+  style={
+    Array [
+      Object {
+        "flexBasis": 0,
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "paddingBottom": 16,
+        "paddingLeft": 16,
+        "paddingRight": 16,
+        "paddingTop": 16,
+      },
+    ]
+  }
+>
+  <View>
+    <View
+      style={
+        Array [
+          Object {
+            "marginTop": 32,
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#0d253c",
+              "fontFamily": "Poppins-SemiBold",
+              "fontSize": 28,
+            },
+          ]
+        }
+      >
+        Login
+      </Text>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "marginTop": 64,
+          },
+        ]
+      }
+    >
+      <View>
+        <View
+          isErrored={false}
+          isFocused={false}
+          isValue=""
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#f3f3f3",
+                "borderColor": "#f3f3f3",
+                "borderRadius": 10,
+                "borderWidth": 2,
+                "flexDirection": "row",
+                "height": 60,
+                "marginBottom": 16,
+                "paddingBottom": 0,
+                "paddingLeft": 16,
+                "paddingRight": 16,
+                "paddingTop": 0,
+                "width": "100%",
+              },
+            ]
+          }
+          testID="container_inputId"
+        >
+          <Icon
+            color="#9d9d9d"
+            name="mail"
+            size={20}
+            style={
+              Array [
+                Object {
+                  "marginRight": 16,
+                },
+              ]
+            }
+          />
+          <TextInput
+            allowFontScaling={true}
+            autoCapitalize="none"
+            autoCorrect={false}
+            defaultValue=""
+            keyboardAppearance="light"
+            keyboardType="email-address"
+            onBlur={[Function]}
+            onChangeText={[Function]}
+            onFocus={[Function]}
+            onSubmitEditing={[Function]}
+            placeholder="E-mail"
+            placeholderTextColor="#9d9d9d"
+            rejectResponderTermination={true}
+            returnKeyType="next"
+            style={
+              Array [
+                Object {
+                  "color": "#9d9d9d",
+                  "flexBasis": 0,
+                  "flexGrow": 1,
+                  "flexShrink": 1,
+                  "fontFamily": "Poppins-Regular",
+                  "fontSize": 16,
+                },
+              ]
+            }
+            testID="inputEmail_testID"
+            underlineColorAndroid="transparent"
+          />
+        </View>
+        <View
+          isErrored={false}
+          isFocused={false}
+          isValue=""
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#f3f3f3",
+                "borderColor": "#f3f3f3",
+                "borderRadius": 10,
+                "borderWidth": 2,
+                "flexDirection": "row",
+                "height": 60,
+                "marginBottom": 16,
+                "paddingBottom": 0,
+                "paddingLeft": 16,
+                "paddingRight": 16,
+                "paddingTop": 0,
+                "width": "100%",
+              },
+            ]
+          }
+          testID="container_inputId"
+        >
+          <Icon
+            color="#9d9d9d"
+            name="lock"
+            size={20}
+            style={
+              Array [
+                Object {
+                  "marginRight": 16,
+                },
+              ]
+            }
+          />
+          <TextInput
+            allowFontScaling={true}
+            defaultValue=""
+            keyboardAppearance="light"
+            onBlur={[Function]}
+            onChangeText={[Function]}
+            onFocus={[Function]}
+            onSubmitEditing={[Function]}
+            placeholder="Senha"
+            placeholderTextColor="#9d9d9d"
+            rejectResponderTermination={true}
+            returnKeyType="send"
+            secureTextEntry={true}
+            style={
+              Array [
+                Object {
+                  "color": "#9d9d9d",
+                  "flexBasis": 0,
+                  "flexGrow": 1,
+                  "flexShrink": 1,
+                  "fontFamily": "Poppins-Regular",
+                  "fontSize": 16,
+                },
+              ]
+            }
+            testID="inputPassword_testID"
+            underlineColorAndroid="transparent"
+          />
+        </View>
+        <View
+          accessible={true}
+          focusable={false}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "flexDirection": "row",
+              "justifyContent": "flex-end",
+              "marginTop": 8,
+              "opacity": 1,
+              "width": "100%",
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#2d4379",
+                  "fontFamily": "Poppins-Regular",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "marginRight": 8,
+                },
+              ]
+            }
+          >
+            Esqueceu sua senha ?
+          </Text>
+          <Image
+            source={
+              Object {
+                "testUri": "../../../src/assets/round-arrow_right_alt-24px.png",
+              }
+            }
+          />
+        </View>
+        <View
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#376aed",
+              "borderRadius": 16,
+              "height": 60,
+              "justifyContent": "center",
+              "marginTop": 32,
+              "opacity": 1,
+              "width": "100%",
+            }
+          }
+          testID="buttonSignIn_testID"
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#FFFFFF",
+                  "fontFamily": "Poppins-Medium",
+                  "fontSize": 18,
+                },
+              ]
+            }
+          >
+            Entrar
+          </Text>
+        </View>
+        <View
+          accessible={true}
+          focusable={false}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "marginTop": 24,
+              "opacity": 1,
+              "width": "100%",
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "#2d4379",
+                  "fontFamily": "Poppins-Regular",
+                  "fontSize": 14,
+                  "fontWeight": "400",
+                  "marginRight": 8,
+                },
+              ]
+            }
+          >
+            Não tem uma conta ? 
+            <Text
+              isBold={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#2d4379",
+                    "fontFamily": "Poppins-Regular",
+                    "fontSize": 14,
+                    "fontWeight": "700",
+                    "marginRight": 8,
+                  },
+                ]
+              }
+            >
+              Inscrever-se
+            </Text>
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "justifyContent": "center",
+            "marginTop": 112,
+            "width": "100%",
+          },
+        ]
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#2d4379",
+              "fontFamily": "Poppins-Regular",
+              "fontSize": 14,
+              "marginBottom": 8,
+              "marginTop": -8,
+            },
+          ]
+        }
+      >
+        Ou faça login com sua conta
+      </Text>
+      <View
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          focusable={false}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../src/assets/Google.png",
+              }
+            }
+          />
+        </View>
+        <View
+          accessible={true}
+          focusable={false}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <Image
+            source={
+              Object {
+                "testUri": "../../../src/assets/Facebook.png",
+              }
+            }
+          />
+        </View>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;

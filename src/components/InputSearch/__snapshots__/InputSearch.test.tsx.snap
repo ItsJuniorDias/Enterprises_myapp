@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Behavior InputSearch render snapshot 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "borderColor": "#f3f3f3",
+      "borderRadius": 25,
+      "borderWidth": 1,
+      "flexDirection": "row",
+      "height": 50,
+      "marginTop": -8,
+      "opacity": 1,
+      "paddingBottom": 0,
+      "paddingLeft": 16,
+      "paddingRight": 16,
+      "paddingTop": 0,
+      "width": "100%",
+    }
+  }
+  testID="touchable_testID"
+>
+  <Image
+    source={
+      Object {
+        "testUri": "../../../src/assets/search.png",
+      }
+    }
+  />
+  <View
+    style={
+      Array [
+        Object {
+          "width": "90%",
+        },
+      ]
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      onChangeText={[Function]}
+      placeholder="Buscar por nome"
+      placeholderTextColor="#A4A4B2"
+      rejectResponderTermination={true}
+      style={
+        Array [
+          Object {
+            "color": "#a4a4b2",
+            "fontFamily": "Poppins-Regular",
+            "marginLeft": 8,
+            "marginTop": 4,
+          },
+        ]
+      }
+      testID="inputSearch_testId"
+      underlineColorAndroid="transparent"
+    />
+  </View>
+</View>
+`;

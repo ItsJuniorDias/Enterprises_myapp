@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Behavior Input render snapshot 1`] = `
+<View
+  isErrored={false}
+  isFocused={false}
+  isValue=""
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#f3f3f3",
+        "borderColor": "#f3f3f3",
+        "borderRadius": 10,
+        "borderWidth": 2,
+        "flexDirection": "row",
+        "height": 60,
+        "marginBottom": 16,
+        "paddingBottom": 0,
+        "paddingLeft": 16,
+        "paddingRight": 16,
+        "paddingTop": 0,
+        "width": "100%",
+      },
+    ]
+  }
+  testID="container_inputId"
+>
+  <Icon
+    color="#9d9d9d"
+    name="mail"
+    size={20}
+    style={
+      Array [
+        Object {
+          "marginRight": 16,
+        },
+      ]
+    }
+  />
+  <TextInput
+    allowFontScaling={true}
+    autoCapitalize="none"
+    autoCorrect={false}
+    defaultValue=""
+    keyboardAppearance="light"
+    keyboardType="email-address"
+    onBlur={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    placeholder="E-mail"
+    placeholderTextColor="#9d9d9d"
+    rejectResponderTermination={true}
+    returnKeyType="next"
+    style={
+      Array [
+        Object {
+          "color": "#9d9d9d",
+          "flexBasis": 0,
+          "flexGrow": 1,
+          "flexShrink": 1,
+          "fontFamily": "Poppins-Regular",
+          "fontSize": 16,
+        },
+      ]
+    }
+    testID="inputId"
+    underlineColorAndroid="transparent"
+  />
+</View>
+`;
