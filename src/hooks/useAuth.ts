@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-// import auth from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 
 type User = {
   name: string;
@@ -40,38 +40,45 @@ export const useAuth = (): UseAuth => {
     loading: true,
   });
 
-  // useEffect(() => {
-  //   const unsubscribe = auth().onAuthStateChanged((user) => {
-  //     setAuthState({ user, loading: false });
-  //   });
+  useEffect(() => {
+    const unsubscribe = auth().onAuthStateChanged((user) => {
+      setAuthState({ user, loading: false });
+    });
 
-  //   return unsubscribe;
-  // }, []);
+    return unsubscribe;
+  }, []);
 
-  // const createUser = async (props: CreateUserProps): Promise<User> => {
-  //   const { email, password } = props;
+  const createUser = async (props: CreateUserProps): Promise<User> => {
+    const { email, password } = props;
 
-  //   const { user } = await auth().createUserWithEmailAndPassword(
-  //     email,
-  //     password
-  //   );
+    const response = await auth().createUserWithEmailAndPassword(
+      email,
+      password
+    );
 
-  //   return user;
-  // };
+    console.log(response, 'CREATE USER AUTH');
 
-  // const login = async (props: LoginProps): Promise<User> => {
-  //   const { email, password } = props;
+    return response.user;
+  };
 
-  //   const response = await auth().signInWithEmailAndPassword(email, password);
+  const login = async (props: LoginProps): Promise<User> => {
+    const { email, password } = props;
 
-  //   return response.user;
-  // };
+    const response = await auth().signInWithEmailAndPassword(email, password);
 
-  // const logout = async (): Promise<void> => {
-  //   await auth().signOut();
-  // };
+    console.log(response, 'LOGIN USER');
+
+    return response.user;
+  };
+
+  const logout = async (): Promise<void> => {
+    await auth().signOut();
+  };
 
   return {
-    authState,
+    ...authState,
+    createUser,
+    login,
+    logout,
   };
 };
