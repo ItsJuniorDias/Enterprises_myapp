@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import React, { useRef } from 'react';
-import { Pressable } from 'react-native';
+import { ActivityIndicator, Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { theme } from '../../theme';
 import { Button } from '../../components';
@@ -11,7 +11,7 @@ import { useAuth } from '../../hooks';
 import { Container, Title, Body, TouchableText, Text } from './styles';
 
 export const SignUp = () => {
-  const { createUser } = useAuth();
+  const { createUser, loading } = useAuth();
 
   const navigation = useNavigation();
 
@@ -77,7 +77,11 @@ export const SignUp = () => {
               formRef.current?.submitForm();
             }}
           >
-            Inscrever-se
+            {!loading ? (
+              <ActivityIndicator size="small" color="#FFFFFF" />
+            ) : (
+              'Inscrever-se'
+            )}
           </Button>
 
           <TouchableText
