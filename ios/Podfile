@@ -39,10 +39,10 @@ target 'myapp' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'RNFBAuth', :path => '../node_modules/@react-native-firebase/auth'
-  pod 'FirebaseCoreInternal', :modular_headers => true  
-  pod 'GoogleUtilities', :modular_headers => true
-  pod 'FirebaseCore', :modular_headers => true
+  # pod 'RNFBAuth', :path => '../node_modules/@react-native-firebase/auth'
+  # pod 'FirebaseCoreInternal', :modular_headers => true  
+  # pod 'GoogleUtilities', :modular_headers => true
+  # # pod 'FirebaseCore', :modular_headers => true
   
 
   post_install do |installer|

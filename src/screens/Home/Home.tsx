@@ -40,14 +40,14 @@ export const Home = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const { logout } = useAuth();
+  // const { logout } = useAuth();
 
   useEffect(() => {
     setDataEnterprise(Object.values(enterprise));
   }, [enterprise]);
 
   const handeExit = () => {
-    logout();
+    // logout();
 
     navigation.navigate('/SignIn');
   };

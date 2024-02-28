@@ -11,7 +11,7 @@ import { useAuth } from '../../hooks';
 import { Container, Title, Body, TouchableText, Text } from './styles';
 
 export const SignUp = () => {
-  const { createUser } = useAuth();
+  // const { createUser } = useAuth();
 
   const navigation = useNavigation();
 
@@ -35,7 +35,7 @@ export const SignUp = () => {
       <Title>Sign Up</Title>
 
       <Body>
-        <Form ref={formRef} onSubmit={createUser}>
+        <Form ref={formRef} onSubmit={() => {}}>
           <Input
             name="name"
             icon="user"
