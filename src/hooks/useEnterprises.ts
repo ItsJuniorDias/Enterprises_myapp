@@ -1,17 +1,85 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import firestore from '@react-native-firebase/firestore';
 
+enum EnterpriseActionEnum {
+  FETCH = 'FETCH',
+  LOADING = 'LOADING',
+  FILTERED = 'FILTERED',
+}
+
+export type EnterpriseAction = {
+  type: 'FETCH' | 'LOADING' | 'FILTERED';
+  payload?: {};
+};
+
+export type EnterpriseProps = {
+  id: string;
+  type: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  url_link: string;
+  title_enterprise: string;
+};
+
+export type EnterpriseState = {
+  _data: EnterpriseProps[];
+  dataFiltered: EnterpriseProps[];
+  isFiltered: boolean;
+  loading?: boolean;
+};
+
+const reducer = (
+  state: EnterpriseState,
+  action: EnterpriseAction
+): EnterpriseState => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case EnterpriseActionEnum.FETCH:
+      return {
+        ...state,
+        ...payload,
+      };
+    case EnterpriseActionEnum.LOADING:
+      return {
+        ...state,
+        ...payload,
+      };
+    case EnterpriseActionEnum.FILTERED:
+      return {
+        ...state,
+        ...payload,
+      };
+    default:
+      return state;
+  }
+};
+
 export const useEnterprises = () => {
-  const [loading, setLoading] = useState<boolean>(true);
-  const [data, setData] = useState([]);
+  const [state, dispatch] = useReducer(reducer, {
+    _data: [],
+    dataFiltered: [],
+    isFiltered: false,
+    loading: true,
+  });
 
   const fetch = async () => {
     try {
       const { docs } = await firestore().collection('enterprises').get();
 
-      setData(docs);
-
-      setLoading(false);
+      dispatch({
+        type: 'FETCH',
+        payload: {
+          _data: docs,
+        },
+      });
+      dispatch({
+        type: 'LOADING',
+        payload: {
+          loading: false,
+        },
+      });
     } catch (e) {
       console.log(e);
     }
@@ -22,7 +90,7 @@ export const useEnterprises = () => {
   }, []);
 
   return {
-    data,
-    loading,
+    state,
+    dispatch,
   };
 };

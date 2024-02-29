@@ -41,13 +41,10 @@ export const useAuth = (): UseAuth => {
     loading: true,
   });
   const [initializing, setInitializing] = useState(true);
-  const [userState, setUserState] = useState({});
 
   useEffect(() => {
     const onAuthStateChanged = async () => {
       await auth().onAuthStateChanged((user) => {
-        setUserState(user);
-
         if (initializing) {
           setInitializing(false);
         }
