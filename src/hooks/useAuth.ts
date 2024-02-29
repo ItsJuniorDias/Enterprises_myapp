@@ -3,9 +3,8 @@ import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 
 type User = {
-  name: string;
-  email: string;
-  password: string;
+  name: string | null;
+  email: string | null;
 };
 
 type AuthState = {
@@ -38,7 +37,6 @@ export const useAuth = (): UseAuth => {
     user: {
       name: '',
       email: '',
-      password: '',
     },
     loading: true,
   });
@@ -51,7 +49,7 @@ export const useAuth = (): UseAuth => {
   //   return unsubscribe;
   // }, []);
 
-  const createUser = async (props: CreateUserProps): Promise<User> => {
+  const createUser = async (props: CreateUserProps) => {
     const { email, password } = props;
     setAuthState((prevProps) => ({
       ...prevProps,
@@ -67,12 +65,11 @@ export const useAuth = (): UseAuth => {
       user: {
         name: user.displayName,
         email: user.email,
-        password: password,
       },
       loading: true,
     });
 
-    navigation.navigate('/Home');
+    return navigation.navigate('/Home');
   };
 
   const login = async (props: LoginProps): Promise<User> => {

@@ -41,8 +41,10 @@ target 'myapp' do
 
   pod 'GoogleUtilities', :modular_headers => true
   pod 'FirebaseCore', :modular_headers => true
+  pod 'FirebaseCoreExtension', :modular_headers => true
+  pod 'FirebaseFirestoreInternal', :modular_headers => true
+  
   # pod 'RNFBAuth', :path => '../node_modules/@react-native-firebase/auth'
-  # pod 'FirebaseCoreInternal', :modular_headers => true
   # pod 'FirebaseCoreInternal', :modular_headers => true  
 
 

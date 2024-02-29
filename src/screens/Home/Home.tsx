@@ -10,7 +10,7 @@ import { IEnterprise } from '../../store/modules/enterprise/types';
 import { requestShow } from '../../store/modules/show/actions';
 import { InputSearch } from '../../components';
 
-import { useAuth } from '../../hooks';
+import { useAuth, useEnterprises } from '../../hooks';
 
 import {
   Container,
@@ -30,21 +30,12 @@ import {
 } from './styles';
 
 export const Home = () => {
-  const [dataEnterprise, setDataEnterprise] = useState<IEnterprise[]>([]);
-  const [filter, setFilter] = useState(false);
-  const [dataFiltered, setDataFiltered] = useState<IEnterprise[]>([]);
-
-  const enterprise = useSelector((state) => state.enterprise);
-  const headers = useSelector((state) => state.show);
-
-  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const { logout } = useAuth();
+  const { data, loading } = useEnterprises();
 
-  useEffect(() => {
-    setDataEnterprise(Object.values(enterprise));
-  }, [enterprise]);
+  console.log(data, 'DATA');
 
   const handeExit = () => {
     logout();
@@ -53,11 +44,10 @@ export const Home = () => {
   };
 
   const handleShow = async (id: IShow) => {
-    dispatch(requestShow(headers, id));
     navigation.navigate('/Show');
   };
 
-  const CardItem = ({ title, description, photo, id }) => {
+  const renderItem = ({ _data: { id, title, description, thumbnail } }) => {
     return (
       <>
         <ContainerCard
@@ -66,7 +56,7 @@ export const Home = () => {
         >
           <ImageCard
             source={{
-              uri: `https://empresas.ioasys.com.br/${photo}`,
+              uri: thumbnail,
             }}
           />
           <ShadowContent>
@@ -81,30 +71,30 @@ export const Home = () => {
     );
   };
 
-  const renderItem = ({ item }) => (
-    <CardItem
-      key={item.id}
-      id={item.id}
-      title={item.enterprise_name}
-      description={item.description}
-      photo={item.photo}
-    />
-  );
+  // const renderItem = ({ item }) => (
+  //   <CardItem
+  //     key={item.id}
+  //     id={item.id}
+  //     title={item.enterprise_name}
+  //     description={item.description}
+  //     photo={item.photo}
+  //   />
+  // );
 
-  const handleFilterValue = (value: any) => {
-    const itemFiltered = dataEnterprise.filter(
-      (item) =>
-        item.enterprise_name.toLowerCase().includes(value.toLowerCase()) ||
-        item.description.toLowerCase().includes(value.toLowerCase())
-    );
+  // const handleFilterValue = (value: any) => {
+  //   const itemFiltered = dataEnterprise.filter(
+  //     (item) =>
+  //       item.enterprise_name.toLowerCase().includes(value.toLowerCase()) ||
+  //       item.description.toLowerCase().includes(value.toLowerCase())
+  //   );
 
-    if (!!itemFiltered.length) {
-      setDataFiltered(itemFiltered);
-      setFilter(true);
-    } else {
-      setFilter(false);
-    }
-  };
+  //   if (!!itemFiltered.length) {
+  //     setDataFiltered(itemFiltered);
+  //     setFilter(true);
+  //   } else {
+  //     setFilter(false);
+  //   }
+  // };
 
   const emptyListDataFilter = () => (
     <>
@@ -132,28 +122,18 @@ export const Home = () => {
         <InputSearch
           title="Buscar por nome"
           name="filter"
-          callBackParent={(value) => handleFilterValue(value)}
+          callBackParent={(value) => {}}
         />
 
         <ContentFlat>
-          {filter ? (
-            <FlatList
-              data={dataFiltered}
-              ListEmptyComponent={emptyListDataFilter}
-              renderItem={renderItem}
-              keyExtractor={(_, index) => {
-                return index.toString();
-              }}
-            />
-          ) : (
-            <FlatList
-              data={dataEnterprise}
-              renderItem={renderItem}
-              keyExtractor={(_, index) => {
-                return index.toString();
-              }}
-            />
-          )}
+          <FlatList
+            data={data}
+            renderItem={({ item }) => renderItem(item)}
+            keyExtractor={(_, index) => {
+              return index.toString();
+            }}
+            ListEmptyComponent={emptyListDataFilter}
+          />
         </ContentFlat>
       </Container>
     </>

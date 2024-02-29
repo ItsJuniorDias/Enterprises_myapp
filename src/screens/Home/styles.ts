@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+import { theme } from '../../theme';
 
 export const Container = styled.View`
   flex: 1;
@@ -19,7 +20,7 @@ export const Header = styled.View`
 export const Title = styled.Text`
   font-size: 18px;
   font-family: 'Poppins-Regular';
-  color: #2d4379;
+  color: ${({ theme }) => theme.colors.light_secondary};
   line-height: 24px;
   margin-bottom: 8px;
 `;
@@ -38,7 +39,6 @@ export const TouchableExit = styled.TouchableOpacity`
   margin-top: -32px;
   width: 48px;
   height: 48px;
-
   border-radius: 50px;
   align-items: center;
   justify-content: center;
@@ -77,12 +77,7 @@ export const ShadowContent = styled.View`
 
 export const TitleCard = styled.Text`
   font-family: 'Poppins-SemiBold';
-
   font-size: 18px;
-  z-index: 5;
-
-  /* identical to box height */
-
   color: #ffffff;
 `;
 
@@ -92,12 +87,7 @@ export const ContentDescription = styled.View`
 
 export const DescriptionCard = styled.Text`
   font-family: 'Poppins-SemiBold';
-
   font-size: 14px;
-  z-index: 5;
-
-  /* identical to box height */
-
   color: #ffffff;
 `;
 
