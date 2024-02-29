@@ -41,7 +41,7 @@ export const Home = () => {
   };
 
   const renderItem = ({
-    _data: { id, title, description, thumbnail, url_link },
+    _data: { id, title, description, thumbnail, url_link, title_enterprise },
   }) => {
     return (
       <>
@@ -54,16 +54,18 @@ export const Home = () => {
               description,
               thumbnail,
               url_link,
+              title_enterprise,
             })
           }
         >
           <ImageCard
+            resizeMode="cover"
             source={{
               uri: thumbnail,
             }}
           />
           <ShadowContent>
-            <TitleCard>{title}</TitleCard>
+            <TitleCard numberOfLines={2}>{title}</TitleCard>
 
             <ContentDescription>
               <DescriptionCard numberOfLines={4}>{description}</DescriptionCard>
@@ -109,37 +111,35 @@ export const Home = () => {
   );
 
   return (
-    <>
-      <Container>
-        <Header>
-          <View>
-            <Title>Olá, Alexandre!</Title>
-            <Description>Bem-vindo(a)</Description>
-          </View>
+    <Container>
+      <Header>
+        <View>
+          <Title>Olá, Alexandre!</Title>
+          <Description>Bem-vindo(a)</Description>
+        </View>
 
-          <TouchableExit testID="buttonExit_testId" onPress={() => handeExit()}>
-            <Image source={exit} />
-          </TouchableExit>
-        </Header>
+        <TouchableExit testID="buttonExit_testId" onPress={() => handeExit()}>
+          <Image source={exit} />
+        </TouchableExit>
+      </Header>
 
-        <InputSearch
-          title="Buscar por nome"
-          name="filter"
-          callBackParent={(value) => {}}
+      <InputSearch
+        title="Buscar por nome"
+        name="filter"
+        callBackParent={(value) => {}}
+      />
+
+      <ContentFlat>
+        <FlatList
+          data={data}
+          renderItem={({ item }) => renderItem(item)}
+          keyExtractor={(_, index) => {
+            return index.toString();
+          }}
+          ListEmptyComponent={emptyListDataFilter}
+          showsVerticalScrollIndicator={false}
         />
-
-        <ContentFlat>
-          <FlatList
-            data={data}
-            renderItem={({ item }) => renderItem(item)}
-            keyExtractor={(_, index) => {
-              return index.toString();
-            }}
-            ListEmptyComponent={emptyListDataFilter}
-            showsVerticalScrollIndicator={false}
-          />
-        </ContentFlat>
-      </Container>
-    </>
+      </ContentFlat>
+    </Container>
   );
 };

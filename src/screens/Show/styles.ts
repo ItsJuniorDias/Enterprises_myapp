@@ -15,7 +15,7 @@ export const Container = styled.View`
 
 export const Header = styled.View`
   width: 100%;
-  height: 160px;
+  height: ${RFValue(116)}px;
 `;
 
 export const Touchable = styled.TouchableOpacity`
@@ -36,6 +36,7 @@ export const Row = styled.View`
 
 export const RowBody = styled.View`
   flex-direction: row;
+  margin-bottom: ${RFValue(32)}px;
 `;
 
 export const Title = styled.Text`
@@ -81,6 +82,11 @@ export const TitleBody = styled.Text`
   color: ${({ theme }) => theme.colors.secondary};
   margin-top: ${RFValue(18)}px;
   /* background-color: blue; */
+`;
+
+export const ContentText = styled.View`
+  padding: ${`${RFValue(0)}px ${RFValue(24)}px`};
+  margin-top: ${`${RFValue(8)}px`};
 `;
 
 export const PressableLink = styled.Pressable`

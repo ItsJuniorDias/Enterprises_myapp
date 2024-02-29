@@ -20,10 +20,12 @@ import {
   RowBody,
   TextLink,
   PressableLink,
+  ContentText,
 } from './styles';
 
 export const Show = ({ route }) => {
-  const { id, title, description, thumbnail, url_link } = route.params;
+  const { id, title, description, thumbnail, url_link, title_enterprise } =
+    route.params;
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -79,12 +81,13 @@ export const Show = ({ route }) => {
             </Touchable>
           </Row>
 
-          <Title>{title}</Title>
+          <Title numberOfLines={2}>{title}</Title>
         </Header>
       </Container>
 
       <Body>
         <ImageBody
+          resizeMode="cover"
           source={{
             uri: thumbnail,
           }}
@@ -92,6 +95,10 @@ export const Show = ({ route }) => {
 
         <ContenFilterImage />
       </Body>
+
+      <ContentText>
+        <TitleBody>{title_enterprise}</TitleBody>
+      </ContentText>
 
       <Content>
         <Description>{description}</Description>
