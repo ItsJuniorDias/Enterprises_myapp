@@ -40,14 +40,22 @@ export const useAuth = (): UseAuth => {
     },
     loading: true,
   });
+  const [initializing, setInitializing] = useState(true);
+  const [userState, setUserState] = useState({});
 
   useEffect(() => {
     const onAuthStateChanged = async () => {
-      const response = await auth().onAuthStateChanged((user) => {
-        console.log(user, 'USER AUTH STATE CHANGED');
-      });
+      await auth().onAuthStateChanged((user) => {
+        setUserState(user);
 
-      console.log(response, 'RESPONSE ');
+        if (initializing) {
+          setInitializing(false);
+        }
+
+        if (user) {
+          return navigation.navigate('/Home');
+        }
+      });
     };
 
     onAuthStateChanged();

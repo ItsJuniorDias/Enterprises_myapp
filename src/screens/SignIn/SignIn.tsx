@@ -63,8 +63,6 @@ export const SignIn = () => {
 
       await login(data);
 
-      // dispatch(loginToAuthRequest(data));
-
       setLoading(false);
 
       navigation.navigate('/Home');
