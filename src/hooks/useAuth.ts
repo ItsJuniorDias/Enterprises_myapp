@@ -41,13 +41,17 @@ export const useAuth = (): UseAuth => {
     loading: true,
   });
 
-  // useEffect(() => {
-  //   const unsubscribe = auth().onAuthStateChanged((user) => {
-  //     setAuthState({ user, loading: false });
-  //   });
+  useEffect(() => {
+    const onAuthStateChanged = async () => {
+      const response = await auth().onAuthStateChanged((user) => {
+        console.log(user, 'USER AUTH STATE CHANGED');
+      });
 
-  //   return unsubscribe;
-  // }, []);
+      console.log(response, 'RESPONSE ');
+    };
+
+    onAuthStateChanged();
+  }, []);
 
   const createUser = async (props: CreateUserProps) => {
     const { email, password } = props;

@@ -10,7 +10,7 @@ export const Container = styled.ScrollView`
   flex: 1;
   background-color: ${({ theme }) => theme.colors.shape};
   margin-top: ${getStatusBarHeight()};
-  padding: ${`${RFValue(16)}px ${RFValue(16)}px`};
+  padding: ${`${RFValue(24)}px ${RFValue(16)}px`};
 `;
 
 export const Title = styled.Text`

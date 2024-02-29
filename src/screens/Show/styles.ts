@@ -1,3 +1,4 @@
+import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const SafeArea = styled.SafeAreaView`
@@ -9,7 +10,7 @@ export const ContentLoading = styled.View`
 `;
 
 export const Container = styled.View`
-  padding: 0 22px;
+  padding: ${`${RFValue(24)}px ${RFValue(24)}px`};
 `;
 
 export const Header = styled.View`
@@ -21,6 +22,7 @@ export const Touchable = styled.TouchableOpacity`
   width: 35px;
   height: 35px;
   border-radius: 50px;
+
   align-items: center;
   justify-content: center;
 `;
@@ -30,6 +32,10 @@ export const Row = styled.View`
   width: 100%;
   justify-content: space-between;
   margin-top: 24px;
+`;
+
+export const RowBody = styled.View`
+  flex-direction: row;
 `;
 
 export const Title = styled.Text`
@@ -65,17 +71,29 @@ export const ContenFilterImage = styled.View`
 
 export const Content = styled.View`
   width: 100%;
-
   padding: 0 30px;
 `;
 
 export const TitleBody = styled.Text`
-  font-family: 'Poppins-SemiBold';
-  font-size: 18px;
+  font-family: ${({ theme }) => theme.fonts.semiBold};
+  font-size: ${RFValue(16)}px;
   line-height: 22px;
+  color: ${({ theme }) => theme.colors.secondary};
+  margin-top: ${RFValue(18)}px;
+  /* background-color: blue; */
+`;
 
-  color: #0d253c;
-  margin-top: 32px;
+export const PressableLink = styled.Pressable`
+  width: 90%;
+  margin-top: ${RFValue(14)}px;
+  /* background-color: red; */
+  margin-left: ${RFValue(8)}px;
+`;
+
+export const TextLink = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: ${RFValue(12)}px;
+  color: ${({ theme }) => theme.colors.secondary};
 `;
 
 export const Description = styled.Text`
@@ -83,39 +101,6 @@ export const Description = styled.Text`
   font-size: 14px;
   line-height: 24px;
   margin-top: 18px;
-
-  color: #2d4379;
+  color: ${({ theme }) => theme.colors.light_secondary};
   margin-bottom: 16px;
-`;
-
-export const FloatView = styled.View`
-  width: 120px;
-  height: 30px;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 16px;
-  margin-top: 32px;
-`;
-
-export const FloatLocation = styled.View`
-  width: 80px;
-  height: 30px;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 16px;
-  margin-top: 32px;
-`;
-
-export const FloatDescription = styled.View`
-  width: 160px;
-  height: 30px;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 16px;
-  margin-top: 32px;
-`;
-
-export const SkeletonPhoto = styled.View`
-  width: '100%';
-  height: 219px;
-  position: absolute;
-  border-top-left-radius: 28;
-  border-top-right-radius: 28;
 `;

@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
-import { Image, ScrollView, BackHandler, View } from 'react-native';
+import React, { useCallback, useEffect } from 'react';
+import { Image, ScrollView, BackHandler, Linking, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { resetState } from '../../store/modules/show/actions';
 import arrow from '../../assets/arrow.png';
-import overflow from '../../assets/Overflow.png';
-import { Loading } from '../../components';
 
 import {
   Container,
@@ -19,16 +17,13 @@ import {
   Content,
   TitleBody,
   Description,
-  SafeArea,
-  ContentLoading,
-  FloatView,
-  FloatLocation,
-  FloatDescription,
-  SkeletonPhoto,
+  RowBody,
+  TextLink,
+  PressableLink,
 } from './styles';
 
-export const Show = () => {
-  const { show } = useSelector((state) => state.show);
+export const Show = ({ route }) => {
+  const { id, title, description, thumbnail, url_link } = route.params;
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -52,78 +47,70 @@ export const Show = () => {
   }, []);
 
   const handleGoBack = () => {
-    dispatch(resetState());
     navigation.goBack();
   };
 
+  const handlePress = useCallback(
+    async (url_link) => {
+      // Checking if the link is supported for links with custom URL scheme.
+      const supported = await Linking.canOpenURL(url_link);
+
+      if (supported) {
+        // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+        // by some browser in the mobile
+        await Linking.openURL(url_link);
+      } else {
+        Alert.alert(`Não foi possível abrir este URL: ${url_link}`);
+      }
+    },
+    [url_link]
+  );
+
   return (
-    <>
-      {!show && (
-        <>
-          <ContentLoading>
-            <Loading />
-          </ContentLoading>
-        </>
-      )}
+    <ScrollView>
+      <Container>
+        <Header>
+          <Row>
+            <Touchable
+              testID="buttonTouchable_testID"
+              onPress={() => handleGoBack()}
+            >
+              <Image source={arrow} />
+            </Touchable>
+          </Row>
 
-      {show && (
-        <>
-          <SafeArea>
-            <ScrollView>
-              <Container>
-                <Header>
-                  <Row>
-                    <Touchable
-                      testID="buttonTouchable_testID"
-                      onPress={() => handleGoBack()}
-                    >
-                      <Image source={arrow} />
-                    </Touchable>
+          <Title>{title}</Title>
+        </Header>
+      </Container>
 
-                    <Touchable>
-                      <Image source={overflow} />
-                    </Touchable>
-                  </Row>
+      <Body>
+        <ImageBody
+          source={{
+            uri: thumbnail,
+          }}
+        />
 
-                  {show.enterprise_name ? (
-                    <Title>{show.enterprise_name}</Title>
-                  ) : (
-                    <FloatView />
-                  )}
-                </Header>
-              </Container>
+        <ContenFilterImage />
+      </Body>
 
-              <Body>
-                <ImageBody
-                  source={{
-                    uri: `https://empresas.ioasys.com.br/${show.photo}`,
-                  }}
-                />
+      <Content>
+        <Description>{description}</Description>
 
-                {!show.photo && <SkeletonPhoto />}
+        <RowBody>
+          <TitleBody>Link:</TitleBody>
 
-                <ContenFilterImage />
-              </Body>
-
-              <Content>
-                {show.city ? (
-                  <TitleBody>
-                    {show.city}, {show.country}
-                  </TitleBody>
-                ) : (
-                  <FloatLocation />
-                )}
-
-                {show.description ? (
-                  <Description>{show.description}</Description>
-                ) : (
-                  <FloatDescription />
-                )}
-              </Content>
-            </ScrollView>
-          </SafeArea>
-        </>
-      )}
-    </>
+          <PressableLink
+            onPress={() => handlePress(url_link)}
+            style={({ pressed }) => [
+              {
+                opacity: pressed ? 0.6 : 1,
+              },
+            ]}
+          >
+            <TextLink numberOfLines={2}>{url_link}</TextLink>
+          </PressableLink>
+        </RowBody>
+      </Content>
+    </ScrollView>
   );
 };

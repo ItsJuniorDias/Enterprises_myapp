@@ -4,14 +4,13 @@ import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
   flex: 1;
-  padding: 0 30px;
+  padding: ${`${RFValue(24)}px ${RFValue(24)}px`};
   margin-top: ${getStatusBarHeight()};
 `;
 
 export const Header = styled.View`
   width: 100%;
   height: 140px;
-
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -85,6 +84,7 @@ export const ContentDescription = styled.View`
 export const DescriptionCard = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(12)}px;
+  margin-top: ${RFValue(8)}px;
   color: ${({ theme }) => theme.colors.shape};
 `;
 
