@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
-import { theme } from '../../theme';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
   flex: 1;
@@ -27,11 +27,9 @@ export const Title = styled.Text`
 
 export const Description = styled.Text`
   font-family: 'Poppins-SemiBold';
-
-  font-weight: 800;
+  font-weight: 700;
   font-size: 24px;
   line-height: 33px;
-
   color: #0d253c;
 `;
 
@@ -52,7 +50,6 @@ export const ContentFlat = styled.SafeAreaView`
 export const ContainerCard = styled.TouchableOpacity`
   width: 100%;
   height: 162px;
-
   margin-bottom: 32px;
   border-radius: 8px;
 `;
@@ -72,13 +69,13 @@ export const ShadowContent = styled.View`
   z-index: 3;
   border-radius: 8px;
   padding: 16px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.7);
 `;
 
 export const TitleCard = styled.Text`
   font-family: 'Poppins-SemiBold';
-  font-size: 18px;
-  color: #ffffff;
+  font-size: ${RFValue(14)}px;
+  color: ${({ theme }) => theme.colors.shape};
 `;
 
 export const ContentDescription = styled.View`
@@ -86,9 +83,9 @@ export const ContentDescription = styled.View`
 `;
 
 export const DescriptionCard = styled.Text`
-  font-family: 'Poppins-SemiBold';
-  font-size: 14px;
-  color: #ffffff;
+  font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: ${RFValue(12)}px;
+  color: ${({ theme }) => theme.colors.shape};
 `;
 
 export const ContentEmpty = styled.View`

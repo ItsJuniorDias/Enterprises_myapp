@@ -10,6 +10,7 @@ export const theme = {
   fonts: {
     regular: 'Poppins-Regular',
     semiBold: 'Poppins-SemiBold',
+    bold: 'Poppins-Bold',
     medium: 'Poppins-Medium',
   },
 };

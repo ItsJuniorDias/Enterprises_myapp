@@ -17,7 +17,7 @@ export const Container = styled.ScrollView`
 export const Title = styled.Text`
   font-size: ${RFValue(28)}px;
   color: ${({ theme }) => theme.colors.secondary};
-  font-family: ${({ theme }) => theme.fonts.semiBold};
+  font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
 export const Header = styled.View`

@@ -17,16 +17,20 @@ prepare_react_native_project!
 #   dependencies: {
 #     ...(process.env.NO_FLIPPER ? { 'react-native-flipper': { platforms: { ios: null } } } : {}),
 # ```
-flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
+# flipper_config = ENV['NO_FLIPPER'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled
 
-linkage = ENV['USE_FRAMEWORKS']
-if linkage != nil
-  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
-  use_frameworks! :linkage => linkage.to_sym
-end
+# linkage = ENV['USE_FRAMEWORKS']
+# if linkage != nil
+#   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
+# end
 
 target 'myapp' do
   config = use_native_modules!
+  use_frameworks! :linkage => :static
+  # use_modular_headers!
+  
+  pod 'RNFBFirestore', :path => '../node_modules/@react-native-firebase/firestore'
+  pod 'FirebaseFirestore', :modular_headers => true
 
   use_react_native!(
     :path => config[:reactNativePath],
@@ -34,7 +38,7 @@ target 'myapp' do
     #
     # Note that if you have use_frameworks! enabled, Flipper will not work and
     # you should disable the next line.
-    :flipper_configuration => flipper_config,
+    # :flipper_configuration => flipper_config,
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
@@ -42,11 +46,10 @@ target 'myapp' do
   pod 'GoogleUtilities', :modular_headers => true
   pod 'FirebaseCore', :modular_headers => true
   pod 'FirebaseCoreExtension', :modular_headers => true
-  pod 'FirebaseFirestoreInternal', :modular_headers => true
-  
-  # pod 'RNFBAuth', :path => '../node_modules/@react-native-firebase/auth'
-  # pod 'FirebaseCoreInternal', :modular_headers => true  
+  pod 'FirebaseCoreInternal', :modular_headers => true
 
+  # pod 'gRPC-Core', :modular_headers => true
+  # pod 'RNFBAuth', :path => '../node_modules/@react-native-firebase/auth'
 
   post_install do |installer|
     # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
