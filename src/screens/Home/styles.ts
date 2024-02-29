@@ -73,7 +73,7 @@ export const ShadowContent = styled.View`
 `;
 
 export const TitleCard = styled.Text`
-  font-family: 'Poppins-SemiBold';
+  font-family: ${({ theme }) => theme.fonts.medium};
   font-size: ${RFValue(14)}px;
   color: ${({ theme }) => theme.colors.shape};
 `;
