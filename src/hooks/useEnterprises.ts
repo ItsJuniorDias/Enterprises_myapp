@@ -74,6 +74,7 @@ export const useEnterprises = () => {
           _data: docs,
         },
       });
+
       dispatch({
         type: 'LOADING',
         payload: {

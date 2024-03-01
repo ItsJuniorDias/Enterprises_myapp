@@ -1,9 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
+import { CreateUserProps, LoginProps } from '../@types';
+
+enum AuthActionEnum {
+  CREATE = 'CREATE',
+  LOADING = 'LOADING',
+  LOGIN = 'LOGIN',
+  LOGGED = 'LOGGED',
+  LOGOUT = 'LOGOUT',
+}
+
+export type AuthAction = {
+  type: 'CREATE' | 'LOADING' | 'LOGGED' | 'LOGIN' | 'LOGOUT';
+  payload?: {};
+};
 
 type User = {
+  id?: string;
   name: string | null;
   email: string | null;
   thumbnail: string | null;
@@ -14,17 +29,6 @@ type AuthState = {
   loading: boolean;
 };
 
-type CreateUserProps = {
-  name: string;
-  email: string;
-  password: string;
-};
-
-type LoginProps = {
-  email: string;
-  password: string;
-};
-
 type UseAuth = {
   user: User;
   loading: boolean;
@@ -33,17 +37,61 @@ type UseAuth = {
   logout: () => Promise<void>;
 };
 
+const reducer = (state: AuthState, action: AuthAction): AuthState => {
+  const { type, payload } = action;
+
+  console.log(
+    {
+      type,
+      payload,
+    },
+    'TYPE AND ACTION'
+  );
+
+  switch (type) {
+    case AuthActionEnum.CREATE:
+      return {
+        ...state,
+        ...payload,
+      };
+    case AuthActionEnum.LOADING:
+      return {
+        ...state,
+        ...payload,
+      };
+    case AuthActionEnum.LOGIN:
+      return {
+        ...state,
+        ...payload,
+      };
+    case AuthActionEnum.LOGGED:
+      return {
+        ...state,
+        ...payload,
+      };
+    case AuthActionEnum.LOGOUT:
+      return {
+        ...state,
+        ...payload,
+      };
+    default:
+      return state;
+  }
+};
+
 export const useAuth = (): UseAuth => {
   const navigation = useNavigation();
 
-  const [authState, setAuthState] = useState<AuthState>({
+  const [authState, dispatchAuthState] = useReducer(reducer, {
     user: {
+      id: '',
       name: '',
       email: '',
       thumbnail: '',
     },
     loading: true,
   });
+
   const [initializing, setInitializing] = useState(true);
 
   useEffect(() => {
@@ -55,14 +103,16 @@ export const useAuth = (): UseAuth => {
           (item) => item._data.email === user?.email
         )._data;
 
-        setAuthState((prevProps) => ({
-          ...prevProps,
-          user: {
-            name: findUserLogged.name,
-            email: findUserLogged.email,
-            thumbnail: findUserLogged.thumbnail,
+        dispatchAuthState({
+          type: 'LOGGED',
+          payload: {
+            user: {
+              name: findUserLogged.name,
+              email: findUserLogged.email,
+              thumbnail: findUserLogged.thumbnail,
+            },
           },
-        }));
+        });
 
         if (initializing) {
           setInitializing(false);
@@ -80,12 +130,15 @@ export const useAuth = (): UseAuth => {
   const createUser = async (props: CreateUserProps) => {
     const { email, password, name } = props;
 
-    setAuthState((prevProps) => ({
-      ...prevProps,
-      loading: false,
-    }));
+    dispatchAuthState({
+      type: 'LOADING',
+      payload: {
+        loading: false,
+      },
+    });
 
-    const responseCreateUser = await firestore().collection('users').add({
+    const { _documentPath } = await firestore().collection('users').add({
+      id: '',
       email,
       thumbnail: '',
       name,
@@ -96,15 +149,33 @@ export const useAuth = (): UseAuth => {
       password
     );
 
-    setAuthState({
-      user: {
-        name: '',
-        email: user.email,
+    dispatchAuthState({
+      type: 'CREATE',
+      payload: {
+        user: {
+          id: _documentPath._parts[1],
+          name,
+          thumbnail: '',
+          email: user.email,
+        },
+        loading: true,
       },
-      loading: true,
     });
 
-    return navigation.navigate('/Home');
+    setTimeout(() => {
+      firestore()
+        .collection('users')
+        .doc(`${_documentPath._parts[1]}`)
+        .update({
+          id: _documentPath._parts[1],
+        })
+        .then(() => {})
+        .catch((e) => {
+          console.log(e);
+        });
+
+      return navigation.navigate('/Home');
+    }, 2000);
   };
 
   const login = async (props: LoginProps): Promise<User> => {

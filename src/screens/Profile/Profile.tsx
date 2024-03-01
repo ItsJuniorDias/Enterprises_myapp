@@ -56,12 +56,12 @@ export const Profile = ({ route }) => {
             },
           ]}
         >
-          <Thumbnail />
+          <Thumbnail resizeMode="cover" source={{ uri: `${thumbnail}` }} />
         </Pressable>
       </Content>
 
       <Body>
-        <Form ref={formRef} onSubmit={(props) => {}}>
+        <Form ref={formRef} onSubmit={() => updateDocuments(user)}>
           <Input
             name="name"
             icon="user"
