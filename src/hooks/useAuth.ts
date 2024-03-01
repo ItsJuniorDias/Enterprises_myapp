@@ -6,6 +6,7 @@ import firestore from '@react-native-firebase/firestore';
 type User = {
   name: string | null;
   email: string | null;
+  thumbnail: string | null;
 };
 
 type AuthState = {
@@ -39,6 +40,7 @@ export const useAuth = (): UseAuth => {
     user: {
       name: '',
       email: '',
+      thumbnail: '',
     },
     loading: true,
   });
@@ -58,6 +60,7 @@ export const useAuth = (): UseAuth => {
           user: {
             name: findUserLogged.name,
             email: findUserLogged.email,
+            thumbnail: findUserLogged.thumbnail,
           },
         }));
 
@@ -75,8 +78,6 @@ export const useAuth = (): UseAuth => {
   }, []);
 
   const createUser = async (props: CreateUserProps) => {
-    console.log(props, 'PROPS');
-
     const { email, password, name } = props;
 
     setAuthState((prevProps) => ({
@@ -86,11 +87,9 @@ export const useAuth = (): UseAuth => {
 
     const responseCreateUser = await firestore().collection('users').add({
       email,
-      password,
+      thumbnail: '',
       name,
     });
-
-    console.log(responseCreateUser, 'RESPONSE CREATE USER');
 
     const { user } = await auth().createUserWithEmailAndPassword(
       email,

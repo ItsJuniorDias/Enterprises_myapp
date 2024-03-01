@@ -22,6 +22,8 @@ import {
   ContentDescription,
   EmptyFilterData,
   ContentEmpty,
+  RowThumbnail,
+  Thumbnail,
 } from './styles';
 
 export type DataItemProps = {
@@ -124,7 +126,22 @@ export const Home = () => {
     <Container>
       <Header>
         <View>
-          <Title>Olá, {user.name}!</Title>
+          <RowThumbnail
+            onPress={() => {}}
+            style={({ pressed }) => [
+              {
+                opacity: pressed ? 0.6 : 1,
+              },
+            ]}
+          >
+            <Thumbnail
+              resizeMode="cover"
+              source={{ uri: `${user.thumbnail}` }}
+            />
+
+            <Title>Olá, {user.name}!</Title>
+          </RowThumbnail>
+
           <Description>Bem-vindo(a)</Description>
         </View>
 

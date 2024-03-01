@@ -22,7 +22,6 @@ export const Title = styled.Text`
   font-family: 'Poppins-Regular';
   color: ${({ theme }) => theme.colors.light_secondary};
   line-height: 24px;
-  margin-bottom: 8px;
 `;
 
 export const Description = styled.Text`
@@ -34,7 +33,7 @@ export const Description = styled.Text`
 `;
 
 export const TouchableExit = styled.TouchableOpacity`
-  margin-top: -32px;
+  margin-top: -40px;
   width: 48px;
   height: 48px;
   border-radius: 50px;
@@ -105,4 +104,19 @@ export const EmptyFilterData = styled.Text`
   margin-bottom: 8px;
   margin-top: 8px;
   margin-right: 8px;
+`;
+
+export const RowThumbnail = styled.Pressable`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: ${RFValue(8)}px;
+`;
+
+export const Thumbnail = styled.Image`
+  width: ${RFValue(32)}px;
+  height: ${RFValue(32)}px;
+  border-radius: 50px;
+  background-color: gray;
+  margin-right: ${RFValue(8)}px;
 `;
