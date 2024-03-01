@@ -31,8 +31,10 @@ export type DataItemProps = {
 export const Home = () => {
   const navigation = useNavigation();
 
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const { state, dispatch } = useEnterprises();
+
+  console.log(user, 'USER');
 
   const handeExit = () => {
     logout();
@@ -122,7 +124,7 @@ export const Home = () => {
     <Container>
       <Header>
         <View>
-          <Title>Olá, Alexandre!</Title>
+          <Title>Olá, {user.name}!</Title>
           <Description>Bem-vindo(a)</Description>
         </View>
 

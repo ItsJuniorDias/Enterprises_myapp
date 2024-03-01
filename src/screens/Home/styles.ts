@@ -1,11 +1,12 @@
 import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+import { Platform } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.ScrollView`
   flex: 1;
-  padding: ${`${RFValue(24)}px ${RFValue(24)}px`};
-  margin-top: ${getStatusBarHeight()};
+  padding: ${`${RFValue(Platform.OS === 'ios' ? 24 : 0)}px ${RFValue(24)}px`};
+  margin-top: ${getStatusBarHeight(true)};
 `;
 
 export const Header = styled.View`
@@ -48,14 +49,14 @@ export const ContentFlat = styled.SafeAreaView`
 
 export const ContainerCard = styled.TouchableOpacity`
   width: 100%;
-  height: 162px;
+  height: ${RFValue(146)}px;
   margin-bottom: 32px;
   border-radius: 8px;
 `;
 
 export const ImageCard = styled.Image`
   width: 100%;
-  height: 162px;
+  height: ${RFValue(146)}px;
   position: absolute;
   z-index: 2;
   border-radius: 8px;
@@ -63,7 +64,7 @@ export const ImageCard = styled.Image`
 
 export const ShadowContent = styled.View`
   width: 100%;
-  height: 162px;
+  height: ${RFValue(146)}px;
   position: absolute;
   z-index: 3;
   border-radius: 8px;
@@ -78,7 +79,7 @@ export const TitleCard = styled.Text`
 `;
 
 export const ContentDescription = styled.View`
-  height: 80px;
+  height: ${RFValue(80)}px;
 `;
 
 export const DescriptionCard = styled.Text`

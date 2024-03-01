@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 
 type User = {
   name: string | null;
@@ -13,6 +14,7 @@ type AuthState = {
 };
 
 type CreateUserProps = {
+  name: string;
   email: string;
   password: string;
 };
@@ -44,7 +46,21 @@ export const useAuth = (): UseAuth => {
 
   useEffect(() => {
     const onAuthStateChanged = async () => {
-      await auth().onAuthStateChanged((user) => {
+      await auth().onAuthStateChanged(async (user) => {
+        const users = await firestore().collection('users').get();
+
+        const findUserLogged = users._docs.find(
+          (item) => item._data.email === user?.email
+        )._data;
+
+        setAuthState((prevProps) => ({
+          ...prevProps,
+          user: {
+            name: findUserLogged.name,
+            email: findUserLogged.email,
+          },
+        }));
+
         if (initializing) {
           setInitializing(false);
         }
@@ -59,11 +75,22 @@ export const useAuth = (): UseAuth => {
   }, []);
 
   const createUser = async (props: CreateUserProps) => {
-    const { email, password } = props;
+    console.log(props, 'PROPS');
+
+    const { email, password, name } = props;
+
     setAuthState((prevProps) => ({
       ...prevProps,
       loading: false,
     }));
+
+    const responseCreateUser = await firestore().collection('users').add({
+      email,
+      password,
+      name,
+    });
+
+    console.log(responseCreateUser, 'RESPONSE CREATE USER');
 
     const { user } = await auth().createUserWithEmailAndPassword(
       email,
@@ -72,7 +99,7 @@ export const useAuth = (): UseAuth => {
 
     setAuthState({
       user: {
-        name: user.displayName,
+        name: '',
         email: user.email,
       },
       loading: true,
