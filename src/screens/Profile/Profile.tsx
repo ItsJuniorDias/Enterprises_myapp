@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import React, { useRef, useState } from 'react';
-import { ActivityIndicator, Pressable } from 'react-native';
+import { ActivityIndicator, Pressable, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { theme } from '../../theme';
 import { Button } from '../../components';
@@ -48,6 +48,19 @@ export const Profile = ({ route }) => {
         email: props.email,
       })
       .then(() => {
+        Alert.alert(
+          'Seus dados foram atualizado com sucesso',
+          'Reinicie o app por favor !',
+          [
+            {
+              text: 'Cancelar',
+              onPress: () => {},
+              style: 'cancel',
+            },
+            { text: 'OK', onPress: () => {} },
+          ]
+        );
+
         setLoadingUpdate(false);
       });
   };
@@ -106,12 +119,6 @@ export const Profile = ({ route }) => {
             name="email"
             icon="mail"
             value={user.email}
-            onChangeText={(value) =>
-              setUser((prevState) => ({
-                ...prevState,
-                email: value,
-              }))
-            }
             placeholder="E-mail"
             returnKeyType="next"
             onSubmitEditing={() => {
