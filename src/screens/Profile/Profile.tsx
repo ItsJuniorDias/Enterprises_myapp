@@ -1,11 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import React, { useRef, useState } from 'react';
-import { Pressable } from 'react-native';
+import { ActivityIndicator, Pressable } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { theme } from '../../theme';
 import { Button } from '../../components';
 import Input from '../../components/Input/Input';
+
+import firestore from '@react-native-firebase/firestore';
 
 import {
   Container,
@@ -17,9 +19,12 @@ import {
   Content,
   Thumbnail,
 } from './styles';
+import { useAuth } from '../../hooks';
 
 export const Profile = ({ route }) => {
-  const { name, email, thumbnail } = route.params;
+  const { name, email, thumbnail, id } = route.params;
+
+  const [loadingUpdate, setLoadingUpdate] = useState(false);
 
   const [user, setUser] = useState({
     name,
@@ -31,6 +36,21 @@ export const Profile = ({ route }) => {
   const formRef = useRef(null);
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
+
+  const updateDocument = (props) => {
+    setLoadingUpdate(true);
+
+    firestore()
+      .collection('users')
+      .doc(`${id}`)
+      .update({
+        name: props.name,
+        email: props.email,
+      })
+      .then(() => {
+        setLoadingUpdate(false);
+      });
+  };
 
   return (
     <Container>
@@ -61,7 +81,7 @@ export const Profile = ({ route }) => {
       </Content>
 
       <Body>
-        <Form ref={formRef} onSubmit={() => updateDocuments(user)}>
+        <Form ref={formRef} onSubmit={() => updateDocument(user)}>
           <Input
             name="name"
             icon="user"
@@ -105,7 +125,11 @@ export const Profile = ({ route }) => {
               formRef.current?.submitForm();
             }}
           >
-            Editar
+            {loadingUpdate ? (
+              <ActivityIndicator size="small" color="#FFFFFF" />
+            ) : (
+              'Editar'
+            )}
           </Button>
 
           <TouchableDelete onPress={() => {}} activeOpacity={0.6}>

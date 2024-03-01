@@ -107,6 +107,7 @@ export const useAuth = (): UseAuth => {
           type: 'LOGGED',
           payload: {
             user: {
+              id: findUserLogged.id,
               name: findUserLogged.name,
               email: findUserLogged.email,
               thumbnail: findUserLogged.thumbnail,
