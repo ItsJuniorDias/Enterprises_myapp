@@ -36,8 +36,6 @@ export const Home = () => {
   const { logout, user } = useAuth();
   const { state, dispatch } = useEnterprises();
 
-  console.log(user, 'USER');
-
   const handeExit = () => {
     logout();
 
@@ -127,7 +125,7 @@ export const Home = () => {
       <Header>
         <View>
           <RowThumbnail
-            onPress={() => {}}
+            onPress={() => navigation.navigate('/Profile', user)}
             style={({ pressed }) => [
               {
                 opacity: pressed ? 0.6 : 1,

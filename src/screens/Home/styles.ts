@@ -117,6 +117,6 @@ export const Thumbnail = styled.Image`
   width: ${RFValue(32)}px;
   height: ${RFValue(32)}px;
   border-radius: 50px;
-  background-color: gray;
+  background-color: ${({ theme }) => theme.colors.skeleton};
   margin-right: ${RFValue(8)}px;
 `;
