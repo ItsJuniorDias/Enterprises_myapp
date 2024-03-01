@@ -20,6 +20,15 @@ export const Content = styled.View`
   justify-content: center;
 `;
 
+export const WithoutThumbnail = styled.View`
+  width: ${RFValue(96)}px;
+  height: ${RFValue(96)}px;
+  border-radius: 100px;
+  background-color: ${({ theme }) => theme.colors.skeleton};
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Thumbnail = styled.Image`
   width: ${RFValue(96)}px;
   height: ${RFValue(96)}px;

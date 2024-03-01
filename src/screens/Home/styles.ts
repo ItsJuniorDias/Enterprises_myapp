@@ -113,6 +113,16 @@ export const RowThumbnail = styled.Pressable`
   margin-bottom: ${RFValue(8)}px;
 `;
 
+export const WithoutThumbnail = styled.View`
+  width: ${RFValue(32)}px;
+  height: ${RFValue(32)}px;
+  border-radius: 50px;
+  background-color: ${({ theme }) => theme.colors.skeleton};
+  margin-right: ${RFValue(8)}px;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Thumbnail = styled.Image`
   width: ${RFValue(32)}px;
   height: ${RFValue(32)}px;

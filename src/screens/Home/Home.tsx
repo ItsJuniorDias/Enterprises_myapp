@@ -24,7 +24,9 @@ import {
   ContentEmpty,
   RowThumbnail,
   Thumbnail,
+  WithoutThumbnail,
 } from './styles';
+import Icon from 'react-native-vector-icons/Feather';
 
 export type DataItemProps = {
   _data: EnterpriseProps;
@@ -132,10 +134,16 @@ export const Home = () => {
               },
             ]}
           >
-            <Thumbnail
-              resizeMode="cover"
-              source={{ uri: `${user.thumbnail}` }}
-            />
+            {!user.thumbnail ? (
+              <WithoutThumbnail>
+                <Icon name={'user'} size={20} color={'#FFFFFF'} />
+              </WithoutThumbnail>
+            ) : (
+              <Thumbnail
+                resizeMode="cover"
+                source={{ uri: `${user.thumbnail}` }}
+              />
+            )}
 
             <Title>Olá, {user.name}!</Title>
           </RowThumbnail>

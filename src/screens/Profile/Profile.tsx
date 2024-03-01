@@ -13,13 +13,13 @@ import {
   Container,
   Title,
   Body,
-  Text,
   TouchableDelete,
   TextDelete,
   Content,
   Thumbnail,
+  WithoutThumbnail,
 } from './styles';
-import { useAuth } from '../../hooks';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Profile = ({ route }) => {
   const { name, email, thumbnail, id } = route.params;
@@ -89,7 +89,13 @@ export const Profile = ({ route }) => {
             },
           ]}
         >
-          <Thumbnail resizeMode="cover" source={{ uri: `${thumbnail}` }} />
+          {!thumbnail ? (
+            <WithoutThumbnail>
+              <Icon name={'user'} size={RFValue(40)} color={'#FFFFFF'} />
+            </WithoutThumbnail>
+          ) : (
+            <Thumbnail resizeMode="cover" source={{ uri: `${thumbnail}` }} />
+          )}
         </Pressable>
       </Content>
 
