@@ -1,8 +1,11 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect, useReducer, useRef, RefObject } from 'react';
 import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
+import { FormHandles } from '@unform/core';
 import { CreateUserProps, LoginProps } from '../@types';
+import { getValidationErrors } from '../utils/getValidationErrors';
+import * as Yup from 'yup';
 
 enum AuthActionEnum {
   CREATE = 'CREATE',
@@ -35,6 +38,7 @@ type UseAuth = {
   createUser: (props: CreateUserProps) => Promise<User>;
   login: (props: LoginProps) => Promise<User>;
   logout: () => Promise<void>;
+  formRef: RefObject<FormHandles>;
 };
 
 const reducer = (state: AuthState, action: AuthAction): AuthState => {
@@ -94,6 +98,8 @@ export const useAuth = (): UseAuth => {
 
   const [initializing, setInitializing] = useState(true);
 
+  const formRef = useRef<FormHandles>(null);
+
   useEffect(() => {
     const onAuthStateChanged = async () => {
       await auth().onAuthStateChanged(async (user) => {
@@ -130,6 +136,38 @@ export const useAuth = (): UseAuth => {
 
   const createUser = async (props: CreateUserProps) => {
     const { email, password, name } = props;
+
+    try {
+      formRef.current?.setErrors({});
+
+      const schema = Yup.object().shape({
+        name: Yup.string()
+          .required('Nome obrigatório')
+          .email('Digite seu nome'),
+        email: Yup.string()
+          .required('E-mail obrigatório')
+          .email('Digite um e-mail válido'),
+        password: Yup.string().required('Senha obrigatória'),
+      });
+
+      await schema.validate(
+        {
+          email,
+          password,
+          name,
+        },
+        {
+          abortEarly: false,
+        }
+      );
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(err);
+
+        formRef.current?.setErrors(errors);
+        return;
+      }
+    }
 
     dispatchAuthState({
       type: 'LOADING',
@@ -194,6 +232,7 @@ export const useAuth = (): UseAuth => {
   return {
     ...authState,
     createUser,
+    formRef,
     login,
     logout,
   };

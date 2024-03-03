@@ -1,13 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import React, { useRef, useState } from 'react';
-import { ActivityIndicator, Pressable, Alert } from 'react-native';
+import { ActivityIndicator, Pressable, Alert, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { theme } from '../../theme';
 import { Button } from '../../components';
 import Input from '../../components/Input/Input';
-
+import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
+import { utils } from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 
 import {
   Container,
@@ -25,10 +27,15 @@ export const Profile = ({ route }) => {
   const { name, email, thumbnail, id } = route.params;
 
   const [loadingUpdate, setLoadingUpdate] = useState(false);
-
   const [user, setUser] = useState({
     name,
     email,
+  });
+
+  const [uploadImage, setUploadImage] = useState({
+    image: null,
+    isUploading: false,
+    transferred: null,
   });
 
   const navigation = useNavigation();
@@ -65,6 +72,45 @@ export const Profile = ({ route }) => {
       });
   };
 
+  const handleSelectImage = () => {
+    launchImageLibrary(
+      {
+        mediaType: 'photo',
+        maxWidth: 2000,
+        maxHeight: 2000,
+      },
+      async (response) => {
+        const { uri, fileName } = response.assets[0];
+
+        console.log(
+          {
+            fileName,
+            uri,
+          },
+          'ASSETS RESPONSE'
+        );
+
+        // const storageRef = storage().ref(
+        //   `${utils.FilePath.PICTURES_DIRECTORY}/${fileName}`
+        // );
+
+        // await storageRef.putFile(`${uri}`);
+
+        // if (response.didCancel) {
+        //   console.log('User cancelled image picker');
+        // } else if (response.error) {
+        //   console.log('ImagePicker Error: ', response.error);
+        // } else if (response.customButton) {
+        //   console.log('User tapped custom button: ', response.customButton);
+        // } else {
+        //   const source = { uri: response.uri };
+
+        //   console.log(source);
+        // }
+      }
+    );
+  };
+
   return (
     <Container>
       <Pressable
@@ -82,7 +128,7 @@ export const Profile = ({ route }) => {
 
       <Content>
         <Pressable
-          onPress={() => {}}
+          onPress={() => handleSelectImage()}
           style={({ pressed }) => [
             {
               opacity: pressed ? 0.6 : 1,

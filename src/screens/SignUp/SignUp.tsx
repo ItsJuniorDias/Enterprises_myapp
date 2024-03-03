@@ -11,11 +11,10 @@ import { useAuth } from '../../hooks';
 import { Container, Title, Body, TouchableText, Text } from './styles';
 
 export const SignUp = () => {
-  const { createUser, loading } = useAuth();
+  const { createUser, loading, formRef } = useAuth();
 
   const navigation = useNavigation();
 
-  const formRef = useRef(null);
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
 
