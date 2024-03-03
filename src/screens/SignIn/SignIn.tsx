@@ -123,7 +123,11 @@ export const SignIn = () => {
                   }}
                 />
 
-                <TouchableText isAlign={false} activeOpacity={0.6}>
+                <TouchableText
+                  onPress={() => navigation.navigate('/ForgetPassword')}
+                  isAlign={false}
+                  activeOpacity={0.6}
+                >
                   <Text>Esqueceu sua senha ?</Text>
                   <Image source={forgotPassword} />
                 </TouchableText>

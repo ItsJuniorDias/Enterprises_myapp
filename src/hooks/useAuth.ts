@@ -1,11 +1,10 @@
 import { useState, useEffect, useReducer, useRef, RefObject } from 'react';
+import { Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import { FormHandles } from '@unform/core';
 import { CreateUserProps, LoginProps } from '../@types';
-
-import { Alert } from 'react-native';
 
 enum AuthActionEnum {
   CREATE = 'CREATE',
@@ -154,10 +153,43 @@ export const useAuth = (): UseAuth => {
         name,
       });
 
-      const { user } = await auth().createUserWithEmailAndPassword(
-        email,
-        password
-      );
+      let user = {};
+      let errorAlreadyInUse: boolean = false;
+
+      if (errorAlreadyInUse) {
+      }
+      auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then((response) => {
+          user = response.user;
+
+          return;
+        })
+        .catch((err) => {
+          errorAlreadyInUse = err.code;
+
+          if (err.code === 'auth/email-already-in-use') {
+            Alert.alert('Erro no cadastro', 'email já cadastrado', [
+              {
+                text: 'Cancelar',
+                onPress: () => {},
+                style: 'cancel',
+              },
+              {
+                text: 'OK',
+                onPress: () =>
+                  dispatchAuthState({
+                    type: 'LOADING',
+                    payload: {
+                      loading: true,
+                    },
+                  }),
+              },
+            ]);
+          }
+        });
+
+      console.log(errorAlreadyInUse, 'ALREADY IN USE');
 
       dispatchAuthState({
         type: 'CREATE',
@@ -172,20 +204,22 @@ export const useAuth = (): UseAuth => {
         },
       });
 
-      setTimeout(() => {
-        firestore()
-          .collection('users')
-          .doc(`${_documentPath._parts[1]}`)
-          .update({
-            id: _documentPath._parts[1],
-          })
-          .then(() => {})
-          .catch((e) => {
-            console.log(e);
-          });
+      if (errorAlreadyInUse) {
+        setTimeout(() => {
+          firestore()
+            .collection('users')
+            .doc(`${_documentPath._parts[1]}`)
+            .update({
+              id: _documentPath._parts[1],
+            })
+            .then(() => {})
+            .catch((e) => {
+              console.log(e);
+            });
 
-        return navigation.navigate('/Home');
-      }, 2000);
+          return navigation.navigate('/Home');
+        }, 2000);
+      }
     } else {
       Alert.alert(
         'Erro no cadastro',
