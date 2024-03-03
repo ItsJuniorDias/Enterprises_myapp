@@ -32,12 +32,6 @@ export const Profile = ({ route }) => {
     email,
   });
 
-  const [uploadImage, setUploadImage] = useState({
-    image: null,
-    isUploading: false,
-    transferred: null,
-  });
-
   const navigation = useNavigation();
 
   const formRef = useRef(null);
@@ -72,6 +66,35 @@ export const Profile = ({ route }) => {
       });
   };
 
+  const updateThumnail = (props) => {
+    setLoadingUpdate(true);
+
+    firestore()
+      .collection('users')
+      .doc(`${id}`)
+      .update({
+        name,
+        email,
+        thumbnail: props,
+      })
+      .then(() => {
+        Alert.alert(
+          'Seus dados foram atualizado com sucesso',
+          'Reinicie o app por favor !',
+          [
+            {
+              text: 'Cancelar',
+              onPress: () => {},
+              style: 'cancel',
+            },
+            { text: 'OK', onPress: () => {} },
+          ]
+        );
+
+        setLoadingUpdate(false);
+      });
+  };
+
   const handleSelectImage = () => {
     launchImageLibrary(
       {
@@ -80,33 +103,9 @@ export const Profile = ({ route }) => {
         maxHeight: 2000,
       },
       async (response) => {
-        const { uri, fileName } = response.assets[0];
+        const { uri } = response.assets[0];
 
-        console.log(
-          {
-            fileName,
-            uri,
-          },
-          'ASSETS RESPONSE'
-        );
-
-        // const storageRef = storage().ref(
-        //   `${utils.FilePath.PICTURES_DIRECTORY}/${fileName}`
-        // );
-
-        // await storageRef.putFile(`${uri}`);
-
-        // if (response.didCancel) {
-        //   console.log('User cancelled image picker');
-        // } else if (response.error) {
-        //   console.log('ImagePicker Error: ', response.error);
-        // } else if (response.customButton) {
-        //   console.log('User tapped custom button: ', response.customButton);
-        // } else {
-        //   const source = { uri: response.uri };
-
-        //   console.log(source);
-        // }
+        updateThumnail(uri);
       }
     );
   };
