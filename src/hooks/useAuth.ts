@@ -137,32 +137,16 @@ export const useAuth = (): UseAuth => {
   const createUser = async (props: CreateUserProps) => {
     const { email, password, name } = props;
 
-    //   formRef.current?.setErrors({});
-
-    //   const schema = Yup.object().shape({
-    //     name: Yup.string()
-    //       .required('Nome obrigatório')
-    //       .email('Digite seu nome'),
-    //     email: Yup.string()
-    //       .required('E-mail obrigatório')
-    //       .email('Digite um e-mail válido'),
-    //     password: Yup.string().required('Senha obrigatória'),
-    //   });
-
-    // await schema.validate(
-    //   {
-    //     email,
-    //     password,
-    //     name,
-    //   },
-    //   {
-    //     abortEarly: false,
-    //   }
-    // );
-
     const validate = !!name && !!email && !!password;
 
     if (validate) {
+      dispatchAuthState({
+        type: 'LOADING',
+        payload: {
+          loading: false,
+        },
+      });
+
       const { _documentPath } = await firestore().collection('users').add({
         id: '',
         email,
@@ -174,13 +158,6 @@ export const useAuth = (): UseAuth => {
         email,
         password
       );
-
-      dispatchAuthState({
-        type: 'LOADING',
-        payload: {
-          loading: false,
-        },
-      });
 
       dispatchAuthState({
         type: 'CREATE',

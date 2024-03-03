@@ -7,9 +7,8 @@ import { theme } from '../../theme';
 import { Button } from '../../components';
 import Input from '../../components/Input/Input';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
-import { utils } from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
+import auth from '@react-native-firebase/auth';
 
 import {
   Container,
@@ -110,6 +109,36 @@ export const Profile = ({ route }) => {
     );
   };
 
+  const handleDeleteAccount = () => {
+    Alert.alert('Seus dados serão excluidos', 'tem certeza disso ?', [
+      {
+        text: 'Cancelar',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          firestore()
+            .collection('users')
+            .doc(`${id}`)
+            .delete()
+            .then(() => {
+              console.log('User deleted!');
+
+              const user = auth().currentUser;
+
+              user?.delete().then(() => {
+                auth().signOut();
+
+                return navigation.navigate('/SignIn');
+              });
+            });
+        },
+      },
+    ]);
+  };
+
   return (
     <Container>
       <Pressable
@@ -190,7 +219,10 @@ export const Profile = ({ route }) => {
             )}
           </Button>
 
-          <TouchableDelete onPress={() => {}} activeOpacity={0.6}>
+          <TouchableDelete
+            onPress={() => handleDeleteAccount()}
+            activeOpacity={0.6}
+          >
             <TextDelete>Deletar conta</TextDelete>
           </TouchableDelete>
         </Form>
