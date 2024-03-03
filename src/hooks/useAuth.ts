@@ -4,8 +4,8 @@ import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import { FormHandles } from '@unform/core';
 import { CreateUserProps, LoginProps } from '../@types';
-import { getValidationErrors } from '../utils/getValidationErrors';
-import * as Yup from 'yup';
+
+import { Alert } from 'react-native';
 
 enum AuthActionEnum {
   CREATE = 'CREATE',
@@ -137,84 +137,84 @@ export const useAuth = (): UseAuth => {
   const createUser = async (props: CreateUserProps) => {
     const { email, password, name } = props;
 
-    try {
-      formRef.current?.setErrors({});
+    //   formRef.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        name: Yup.string()
-          .required('Nome obrigatório')
-          .email('Digite seu nome'),
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('Digite um e-mail válido'),
-        password: Yup.string().required('Senha obrigatória'),
+    //   const schema = Yup.object().shape({
+    //     name: Yup.string()
+    //       .required('Nome obrigatório')
+    //       .email('Digite seu nome'),
+    //     email: Yup.string()
+    //       .required('E-mail obrigatório')
+    //       .email('Digite um e-mail válido'),
+    //     password: Yup.string().required('Senha obrigatória'),
+    //   });
+
+    // await schema.validate(
+    //   {
+    //     email,
+    //     password,
+    //     name,
+    //   },
+    //   {
+    //     abortEarly: false,
+    //   }
+    // );
+
+    const validate = !!name && !!email && !!password;
+
+    if (validate) {
+      const { _documentPath } = await firestore().collection('users').add({
+        id: '',
+        email,
+        thumbnail: '',
+        name,
       });
 
-      await schema.validate(
-        {
-          email,
-          password,
-          name,
-        },
-        {
-          abortEarly: false,
-        }
+      const { user } = await auth().createUserWithEmailAndPassword(
+        email,
+        password
       );
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
 
-        formRef.current?.setErrors(errors);
-        return;
-      }
-    }
-
-    dispatchAuthState({
-      type: 'LOADING',
-      payload: {
-        loading: false,
-      },
-    });
-
-    const { _documentPath } = await firestore().collection('users').add({
-      id: '',
-      email,
-      thumbnail: '',
-      name,
-    });
-
-    const { user } = await auth().createUserWithEmailAndPassword(
-      email,
-      password
-    );
-
-    dispatchAuthState({
-      type: 'CREATE',
-      payload: {
-        user: {
-          id: _documentPath._parts[1],
-          name,
-          thumbnail: '',
-          email: user.email,
+      dispatchAuthState({
+        type: 'LOADING',
+        payload: {
+          loading: false,
         },
-        loading: true,
-      },
-    });
+      });
 
-    setTimeout(() => {
-      firestore()
-        .collection('users')
-        .doc(`${_documentPath._parts[1]}`)
-        .update({
-          id: _documentPath._parts[1],
-        })
-        .then(() => {})
-        .catch((e) => {
-          console.log(e);
-        });
+      dispatchAuthState({
+        type: 'CREATE',
+        payload: {
+          user: {
+            id: _documentPath._parts[1],
+            name,
+            thumbnail: '',
+            email: user.email,
+          },
+          loading: true,
+        },
+      });
 
-      return navigation.navigate('/Home');
-    }, 2000);
+      setTimeout(() => {
+        firestore()
+          .collection('users')
+          .doc(`${_documentPath._parts[1]}`)
+          .update({
+            id: _documentPath._parts[1],
+          })
+          .then(() => {})
+          .catch((e) => {
+            console.log(e);
+          });
+
+        return navigation.navigate('/Home');
+      }, 2000);
+    } else {
+      Alert.alert(
+        'Erro no cadastro',
+        'Ocorreu um erro no cadastro, cheque as credenciais'
+      );
+    }
   };
 
   const login = async (props: LoginProps): Promise<User> => {
