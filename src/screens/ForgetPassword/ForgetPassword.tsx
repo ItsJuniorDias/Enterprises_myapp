@@ -18,6 +18,20 @@ export const ForgetPassword = () => {
   const passwordInputRef = useRef<TextInput>(null);
 
   const handleResetPassword = async (props) => {
+    if (!props.email) {
+      Alert.alert('Digite seu email', 'confirme seu email', [
+        {
+          text: 'Cancelar',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {},
+        },
+      ]);
+    }
+
     try {
       await auth().sendPasswordResetEmail(`${props.email}`);
 

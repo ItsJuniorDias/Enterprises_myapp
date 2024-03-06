@@ -78,10 +78,8 @@ export const Content = styled.View`
 export const TitleBody = styled.Text`
   font-family: ${({ theme }) => theme.fonts.semiBold};
   font-size: ${RFValue(16)}px;
-  line-height: 22px;
   color: ${({ theme }) => theme.colors.secondary};
   margin-top: ${RFValue(18)}px;
-  /* background-color: blue; */
 `;
 
 export const ContentText = styled.View`
@@ -92,7 +90,6 @@ export const ContentText = styled.View`
 export const PressableLink = styled.Pressable`
   width: 90%;
   margin-top: ${RFValue(14)}px;
-  /* background-color: red; */
   margin-left: ${RFValue(8)}px;
 `;
 
