@@ -30,6 +30,8 @@ export const ForgetPassword = () => {
           onPress: () => {},
         },
       ]);
+
+      return;
     }
 
     try {

@@ -1,5 +1,8 @@
 import styled from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { Dimensions } from 'react-native';
+
+const windowDimensions = Dimensions.get('window').height;
 
 type TouchableTextProps = {
   isAlign: boolean;
@@ -26,8 +29,7 @@ export const Header = styled.View`
 
 export const Body = styled.View`
   margin-top: ${RFValue(64)}px;
-  height: ${RFValue(230)};
-  /* background-color: red; */
+  height: ${windowDimensions <= 592 ? RFValue(216) : RFValue(230)}px;
 `;
 
 export const TouchableText = styled.TouchableOpacity<TouchableTextProps>`
