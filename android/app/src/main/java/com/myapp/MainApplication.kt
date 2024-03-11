@@ -1,4 +1,4 @@
-package com.myapp
+package com.enterprises
 
 import com.oblador.vectoricons.VectorIconsPackage;
 import android.app.Application
