@@ -1,12 +1,13 @@
 import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
-import { Platform } from 'react-native';
+import { Platform, Dimensions } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+
+const windowDimensions = Dimensions.get('window').height;
 
 export const Container = styled.ScrollView`
   flex: 1;
   padding: ${`${RFValue(Platform.OS === 'ios' ? 24 : 0)}px ${RFValue(24)}px`};
-  margin-top: ${getStatusBarHeight(true)};
 `;
 
 export const Header = styled.View`
@@ -48,14 +49,14 @@ export const ContentFlat = styled.SafeAreaView`
 
 export const ContainerCard = styled.TouchableOpacity`
   width: 100%;
-  height: ${RFValue(146)}px;
+  height: ${windowDimensions <= 592 ? RFValue(146 + 32) : RFValue(146)}px;
   margin-bottom: 32px;
   border-radius: 8px;
 `;
 
 export const ImageCard = styled.Image`
   width: 100%;
-  height: ${RFValue(146)}px;
+  height: ${windowDimensions <= 592 ? RFValue(146 + 32) : RFValue(146)}px;
   position: absolute;
   z-index: 2;
   border-radius: 8px;
@@ -63,17 +64,17 @@ export const ImageCard = styled.Image`
 
 export const ShadowContent = styled.View`
   width: 100%;
-  height: ${RFValue(146)}px;
+  height: ${windowDimensions <= 592 ? RFValue(146 + 32) : RFValue(146)}px;
+  padding: ${windowDimensions <= 592 ? RFValue(16) : RFValue(12)}px;
   position: absolute;
   z-index: 3;
   border-radius: 8px;
-  padding: 16px;
   background-color: rgba(0, 0, 0, 0.7);
 `;
 
 export const TitleCard = styled.Text`
   font-family: ${({ theme }) => theme.fonts.medium};
-  font-size: ${RFValue(14)}px;
+  font-size: ${windowDimensions <= 592 ? RFValue(16) : RFValue(14)}px;
   color: ${({ theme }) => theme.colors.shape};
 `;
 
@@ -83,8 +84,10 @@ export const ContentDescription = styled.View`
 
 export const DescriptionCard = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
-  font-size: ${RFValue(12)}px;
-  margin-top: ${RFValue(8)}px;
+  font-size: ${windowDimensions <= 592 ? RFValue(14) : RFValue(12)}px;
+
+  padding-top: ${RFValue(8)}px;
+  height: ${RFValue(120)}px;
   color: ${({ theme }) => theme.colors.shape};
 `;
 

@@ -31,7 +31,7 @@ export const Row = styled.View`
   flex-direction: row;
   width: 100%;
   justify-content: space-between;
-  margin-top: 24px;
+  margin-top: ${RFValue(8)}px;
 `;
 
 export const RowBody = styled.View`
@@ -42,9 +42,9 @@ export const RowBody = styled.View`
 export const Title = styled.Text`
   font-family: 'Poppins-SemiBold';
   color: #0d253c;
-  font-size: 24px;
+  font-size: ${RFValue(18)}px;
   margin-left: 8px;
-  margin-top: 24px;
+  margin-top: ${RFValue(24)}px;
 `;
 
 export const Body = styled.View`
@@ -72,7 +72,7 @@ export const ContenFilterImage = styled.View`
 
 export const Content = styled.View`
   width: 100%;
-  padding: 0 30px;
+  padding: ${`${RFValue(0)}px ${RFValue(24)}px`};
 `;
 
 export const TitleBody = styled.Text`
@@ -84,7 +84,7 @@ export const TitleBody = styled.Text`
 
 export const ContentText = styled.View`
   padding: ${`${RFValue(0)}px ${RFValue(24)}px`};
-  margin-top: ${`${RFValue(8)}px`};
+  margin-top: ${RFValue(8)}px;
 `;
 
 export const PressableLink = styled.Pressable`
@@ -100,9 +100,8 @@ export const TextLink = styled.Text`
 `;
 
 export const Description = styled.Text`
-  font-family: 'Poppins-Regular';
-  font-size: 14px;
-  line-height: 24px;
+  font-family: ${({ theme }) => theme.fonts.regular};
+  font-size: ${RFValue(12)}px;
   margin-top: 18px;
   color: ${({ theme }) => theme.colors.light_secondary};
   margin-bottom: 16px;

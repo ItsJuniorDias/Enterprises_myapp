@@ -56,8 +56,9 @@ export const Row = styled.View`
 `;
 
 export const Footer = styled.View`
-  margin-top: ${RFValue(112)}px;
   width: 100%;
+  padding-top: ${RFValue(112)}px;
+  margin-bottom: ${RFValue(32)}px;
   align-items: center;
   justify-content: center;
 `;
