@@ -38,7 +38,6 @@ $ yarn
 Android
 
 ```
-$ cd enterprise 
 $ yarn android 
 ```
 
