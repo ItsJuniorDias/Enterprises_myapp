@@ -1,8 +1,8 @@
 # Enterprises 🛰
 Application built with React Native in order to show data from a companies api
 
+![enterprises screens](https://github.com/ItsJuniorDias/Enterprises_myapp/assets/50254416/bcef23f0-8fca-41f1-a000-ef2b426eac26)
 
-![show_item](https://user-images.githubusercontent.com/50254416/124333960-09a9b580-db6c-11eb-80ef-62b8be5dd393.jpg)
 
 #### Figma
 - https://www.figma.com/file/hpGJBnIemQLAZSWGjaodjn/Enterprises?node-id=0%3A1
