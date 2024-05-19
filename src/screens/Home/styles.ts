@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { Platform, Dimensions } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
@@ -7,7 +6,7 @@ const windowDimensions = Dimensions.get('window').height;
 
 export const Container = styled.ScrollView`
   flex: 1;
-  padding: ${`${RFValue(Platform.OS === 'ios' ? 24 : 0)}px ${RFValue(24)}px`};
+  padding: ${`${RFValue(Platform.OS === 'ios' ? 32 : 0)}px ${RFValue(24)}px`};
 `;
 
 export const Header = styled.View`
@@ -85,7 +84,6 @@ export const ContentDescription = styled.View`
 export const DescriptionCard = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${windowDimensions <= 592 ? RFValue(14) : RFValue(12)}px;
-
   padding-top: ${RFValue(8)}px;
   height: ${RFValue(120)}px;
   color: ${({ theme }) => theme.colors.shape};
@@ -114,6 +112,8 @@ export const RowThumbnail = styled.Pressable`
   align-items: center;
   justify-content: space-between;
   margin-bottom: ${RFValue(8)}px;
+
+  width: 80%;
 `;
 
 export const WithoutThumbnail = styled.View`
