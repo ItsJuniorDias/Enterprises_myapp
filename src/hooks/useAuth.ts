@@ -14,10 +14,33 @@ enum AuthActionEnum {
   LOGOUT = 'LOGOUT',
 }
 
-export type AuthAction = {
-  type: 'CREATE' | 'LOADING' | 'LOGGED' | 'LOGIN' | 'LOGOUT';
-  payload?: {};
-};
+export type AuthAction =
+  | {
+      type: 'CREATE';
+      payload?: {
+        user: User;
+        loading: boolean;
+      };
+    }
+  | {
+      type: 'LOADING';
+      payload?: {};
+    }
+  | {
+      type: 'LOGGED';
+      payload?: {};
+    }
+  | {
+      type: 'LOGIN';
+      payload?: {
+        email: string;
+        password: string;
+      };
+    }
+  | {
+      type: 'LOGOUT';
+      payload?: {};
+    };
 
 type User = {
   id?: string;
@@ -43,19 +66,22 @@ type UseAuth = {
 const reducer = (state: AuthState, action: AuthAction): AuthState => {
   const { type, payload } = action;
 
-  console.log(
-    {
-      type,
-      payload,
-    },
-    'TYPE AND ACTION'
-  );
-
   switch (type) {
     case AuthActionEnum.CREATE:
+      const { user, loading } = payload;
+
+      console.log(
+        {
+          user,
+          loading,
+        },
+        'CREATE USER'
+      );
+
       return {
         ...state,
-        ...payload,
+        user,
+        loading,
       };
     case AuthActionEnum.LOADING:
       return {
@@ -161,7 +187,7 @@ export const useAuth = (): UseAuth => {
       auth()
         .createUserWithEmailAndPassword(email, password)
         .then((response) => {
-          user = response.user;
+          user = response._user;
 
           return;
         })
@@ -189,8 +215,6 @@ export const useAuth = (): UseAuth => {
           }
         });
 
-      console.log(errorAlreadyInUse, 'ALREADY IN USE');
-
       dispatchAuthState({
         type: 'CREATE',
         payload: {
@@ -204,7 +228,9 @@ export const useAuth = (): UseAuth => {
         },
       });
 
-      if (errorAlreadyInUse) {
+      console.log(errorAlreadyInUse, 'Error');
+
+      if (!errorAlreadyInUse) {
         setTimeout(() => {
           firestore()
             .collection('users')
@@ -212,7 +238,9 @@ export const useAuth = (): UseAuth => {
             .update({
               id: _documentPath._parts[1],
             })
-            .then(() => {})
+            .then((response) => {
+              console.log(response, 'RESPONSE UPDATE USER');
+            })
             .catch((e) => {
               console.log(e);
             });

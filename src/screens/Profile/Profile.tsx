@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import React, { useRef, useState } from 'react';
-import { ActivityIndicator, Pressable, Alert, Platform } from 'react-native';
+import { ActivityIndicator, Pressable, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { theme } from '../../theme';
 import { Button } from '../../components';
