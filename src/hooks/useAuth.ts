@@ -228,8 +228,6 @@ export const useAuth = (): UseAuth => {
         },
       });
 
-      console.log(errorAlreadyInUse, 'Error');
-
       if (!errorAlreadyInUse) {
         setTimeout(() => {
           firestore()

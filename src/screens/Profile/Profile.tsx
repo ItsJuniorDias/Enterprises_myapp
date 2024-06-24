@@ -26,6 +26,7 @@ export const Profile = ({ route }) => {
   const { name, email, thumbnail, id } = route.params;
 
   const [loadingUpdate, setLoadingUpdate] = useState(false);
+
   const [user, setUser] = useState({
     name,
     email,

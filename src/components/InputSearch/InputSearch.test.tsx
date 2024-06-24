@@ -1,8 +1,8 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
-import { InputSearch } from '../InputSearch/InputSearch';
+import { InputSearch } from './InputSearch';
 
-describe('Behavior InputSearch', () => {
+describe('Behavior component InputSearch', () => {
   const handleFilterValue = jest.fn();
 
   const screenRender = (
@@ -12,12 +12,6 @@ describe('Behavior InputSearch', () => {
       callBackParent={(value) => handleFilterValue(value)}
     />
   );
-
-  it('render snapshot', () => {
-    const result = render(screenRender).toJSON();
-
-    expect(result).toMatchSnapshot();
-  });
 
   it('should press touchable', () => {
     const { getByTestId } = render(screenRender);

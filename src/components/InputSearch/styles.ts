@@ -1,3 +1,4 @@
+import { TextInput } from 'react-native';
 import styled from 'styled-components/native';
 
 export const Touchable = styled.TouchableOpacity`
@@ -17,7 +18,7 @@ export const ContentInput = styled.View`
   width: 90%;
 `;
 
-export const Input = styled.TextInput`
+export const Input = styled(TextInput)`
   color: #a4a4b2;
   margin-left: 8px;
   font-family: 'Poppins-Regular';

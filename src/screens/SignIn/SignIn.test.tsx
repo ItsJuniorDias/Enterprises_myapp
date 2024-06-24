@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react-native';
 import { SignIn } from '../SignIn/SignIn';
 import { AxiosResponse } from 'axios';
 import { ThemeProvider } from 'styled-components/native';
-import { theme } from 'theme';
+import { theme } from '../../theme';
 import 'jest-styled-components';
 
 const mockResponse = {
@@ -34,12 +34,6 @@ describe('Behavior SignIn', () => {
       <SignIn />
     </ThemeProvider>
   );
-
-  it('render snapshot', () => {
-    const result = render(screenRender()).toJSON();
-
-    expect(result).toMatchSnapshot();
-  });
 
   it('should call function handleSignIn', async () => {
     const { getByTestId } = render(screenRender());

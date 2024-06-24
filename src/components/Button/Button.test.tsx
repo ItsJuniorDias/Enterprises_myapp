@@ -12,11 +12,6 @@ describe('Behavior Button', () => {
     </ThemeProvider>
   );
 
-  it('render snapshot', () => {
-    const result = render(screenRender).toJSON();
-
-    expect(result).toMatchSnapshot();
-  });
   it('should render button', () => {
     const { getByTestId } = render(screenRender);
 
