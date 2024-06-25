@@ -11,12 +11,13 @@ import {
   Profile,
   ForgetPassword,
 } from '../screens';
+import { User } from '../hooks';
 
 export type RootStackParamList = {
   Home: undefined;
   SignUp: undefined;
   SignIn: undefined;
-  Profile: undefined;
+  Profile: User;
   Show: undefined;
   ForgetPassword: undefined;
 };

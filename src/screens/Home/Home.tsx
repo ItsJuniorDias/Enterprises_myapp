@@ -27,13 +27,14 @@ import {
   WithoutThumbnail,
 } from './styles';
 import Icon from 'react-native-vector-icons/Feather';
+import { ProfileScreenNavigationProp } from '../../routes';
 
 export type DataItemProps = {
   _data: EnterpriseProps;
 };
 
 export const Home = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
 
   const { logout, user } = useAuth();
   const { state, dispatch } = useEnterprises();
@@ -41,11 +42,11 @@ export const Home = () => {
   const handeExit = () => {
     logout();
 
-    navigation.navigate('/SignIn');
+    navigation.navigate('SignIn');
   };
 
   const handleShow = async (props) => {
-    navigation.navigate('/Show', props);
+    navigation.navigate('Show', props);
   };
 
   const handleFilter = useCallback(
@@ -127,7 +128,7 @@ export const Home = () => {
       <Header>
         <View>
           <RowThumbnail
-            onPress={() => navigation.navigate('/Profile', user)}
+            onPress={() => navigation.navigate('Profile', user)}
             style={({ pressed }) => [
               {
                 opacity: pressed ? 0.6 : 1,

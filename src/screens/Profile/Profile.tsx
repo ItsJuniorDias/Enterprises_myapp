@@ -21,6 +21,7 @@ import {
   WithoutThumbnail,
 } from './styles';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { ProfileScreenNavigationProp } from '../../routes';
 
 export const Profile = ({ route }) => {
   const { name, email, thumbnail, id } = route.params;
@@ -32,7 +33,7 @@ export const Profile = ({ route }) => {
     email,
   });
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
 
   const formRef = useRef(null);
   const emailInputRef = useRef(null);
@@ -132,7 +133,7 @@ export const Profile = ({ route }) => {
               user?.delete().then(() => {
                 auth().signOut();
 
-                return navigation.navigate('/SignIn');
+                return navigation.navigate('SignIn');
               });
             });
         },

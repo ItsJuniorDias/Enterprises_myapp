@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import { FormHandles } from '@unform/core';
 import { CreateUserProps, LoginProps } from '../@types';
+import { ProfileScreenNavigationProp } from '../routes';
 
 enum AuthActionEnum {
   CREATE = 'CREATE',
@@ -42,7 +43,7 @@ export type AuthAction =
       payload?: {};
     };
 
-type User = {
+export type User = {
   id?: string;
   name: string | null;
   email: string | null;
@@ -109,7 +110,7 @@ const reducer = (state: AuthState, action: AuthAction): AuthState => {
 };
 
 export const useAuth = (): UseAuth => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
 
   const [authState, dispatchAuthState] = useReducer(reducer, {
     user: {
@@ -151,7 +152,7 @@ export const useAuth = (): UseAuth => {
         }
 
         if (user) {
-          return navigation.navigate('/Home');
+          return navigation.navigate('Home');
         }
       });
     };
@@ -243,7 +244,7 @@ export const useAuth = (): UseAuth => {
               console.log(e);
             });
 
-          return navigation.navigate('/Home');
+          return navigation.navigate('Home');
         }, 2000);
       }
     } else {

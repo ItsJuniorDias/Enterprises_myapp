@@ -23,6 +23,7 @@ import {
   TextFooter,
   Row,
 } from './styles';
+import { ProfileScreenNavigationProp } from '../../routes';
 interface SignInFormData {
   email: string;
   password: string;
@@ -37,7 +38,7 @@ export const SignIn = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
 
   const { login } = useAuth();
 
@@ -65,7 +66,7 @@ export const SignIn = () => {
 
       setLoading(false);
 
-      navigation.navigate('/Home');
+      navigation.navigate('Home');
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
@@ -124,7 +125,7 @@ export const SignIn = () => {
                 />
 
                 <TouchableText
-                  onPress={() => navigation.navigate('/ForgetPassword')}
+                  onPress={() => navigation.navigate('ForgetPassword')}
                   isAlign={false}
                   activeOpacity={0.6}
                 >
@@ -143,7 +144,7 @@ export const SignIn = () => {
                 </Button>
 
                 <TouchableText
-                  onPress={() => navigation.navigate('/SignUp')}
+                  onPress={() => navigation.navigate('SignUp')}
                   isAlign
                   activeOpacity={0.6}
                 >

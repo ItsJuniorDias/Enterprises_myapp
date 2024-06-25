@@ -28,7 +28,7 @@ jest.mock('react-native-responsive-fontsize', () => ({
   RFValue: (value: number, _?: number) => value,
 }));
 
-describe('Behavior SignIn', () => {
+describe('Behavior screen SignIn', () => {
   const screenRender = () => (
     <ThemeProvider theme={theme}>
       <SignIn />

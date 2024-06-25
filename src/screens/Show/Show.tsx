@@ -22,18 +22,19 @@ import {
   PressableLink,
   ContentText,
 } from './styles';
+import { ProfileScreenNavigationProp } from '../../routes';
 
 export const Show = ({ route }) => {
   const { id, title, description, thumbnail, url_link, title_enterprise } =
     route.params;
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
   const dispatch = useDispatch();
 
   function handleBackButtonClick() {
     dispatch(resetState());
 
-    navigation.navigate('/Home');
+    navigation.navigate('Home');
     return true;
   }
 
