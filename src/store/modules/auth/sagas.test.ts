@@ -22,13 +22,19 @@ describe('Behavior saga auth', () => {
       data,
     },
   };
+
   it('should return action loginToAuthFailure', () => {
     const result = loginAuthUser(payload);
     result.next().value;
 
-    expect(result.next().value.payload.action).toMatchObject({
-      type: 'LOGIN_AUTH_FAILURE',
-      payload: {},
+    expect(result.next().value).toMatchObject({
+      '@@redux-saga/IO': true,
+      combinator: false,
+      type: 'PUT',
+      payload: {
+        channel: undefined,
+        action: { type: 'LOGIN_AUTH_FAILURE', payload: {} },
+      },
     });
   });
 
@@ -36,9 +42,14 @@ describe('Behavior saga auth', () => {
     const result = loginAuthUser(payload);
     result.next().value;
 
-    expect(result.next().value.payload.action).toMatchObject({
-      type: 'LOGIN_AUTH_FAILURE',
-      payload: {},
+    expect(result.next().value).toMatchObject({
+      '@@redux-saga/IO': true,
+      combinator: false,
+      type: 'PUT',
+      payload: {
+        channel: undefined,
+        action: { type: 'LOGIN_AUTH_FAILURE', payload: {} },
+      },
     });
   });
 });

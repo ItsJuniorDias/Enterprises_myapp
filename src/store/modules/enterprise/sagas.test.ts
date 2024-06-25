@@ -28,9 +28,14 @@ describe('Behavior saga enterprise', () => {
 
     result.next().value;
 
-    expect(result.next().value.payload.action).toMatchObject({
-      type: 'GET_ENTERPRISE_FAILURE',
-      payload: {},
+    expect(result.next().value).toMatchObject({
+      '@@redux-saga/IO': true,
+      combinator: false,
+      type: 'PUT',
+      payload: {
+        channel: undefined,
+        action: { type: 'GET_ENTERPRISE_FAILURE', payload: {} },
+      },
     });
   });
 });

@@ -1,23 +1,29 @@
 import React from 'react';
 import show, { INITIAL_STATE } from './reducer';
+import { IShow } from './types';
 
 describe('Behavior reducer show', () => {
-  const data = {
+  const data: IShow = {
     id: 0,
+    enterprise_name: '',
+    description: '',
     email_enterprise: null,
     facebook: null,
     twitter: null,
     linkedin: null,
     phone: null,
-    own_enterprise: false,
-    enterprise_name: '',
+    own_enterprise: null,
     photo: '',
-    description: '',
+    value: 0,
+    shares: 0,
+    share_price: 0,
+    own_shares: 0,
     city: '',
     country: '',
-    value: 0,
-    share_price: 0,
-    enterprise_type: undefined,
+    enterprise_type: {
+      enterprise_type_name: '',
+      id: 0,
+    },
   };
 
   const headers = {

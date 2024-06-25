@@ -30,9 +30,14 @@ describe('Behavior saga getShow', () => {
 
     result.next().value;
 
-    expect(result.next().value.payload.action).toMatchObject({
-      type: 'FAILURE_SHOW',
-      payload: {},
+    expect(result.next().value).toMatchObject({
+      '@@redux-saga/IO': true,
+      combinator: false,
+      type: 'PUT',
+      payload: {
+        channel: undefined,
+        action: { type: 'FAILURE_SHOW', payload: {} },
+      },
     });
   });
 });

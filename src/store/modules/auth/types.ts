@@ -5,6 +5,22 @@ export enum ActionTypes {
   logoutUser = 'LOGOUT_USER',
 }
 
+export type AuthStoreAction =
+  | {
+      type: ActionTypes.loginAuthSuccess;
+      payload: {
+        data: IAuthUser & IAuth;
+      };
+    }
+  | {
+      type: ActionTypes.logoutUser;
+      payload: {};
+    }
+  | {
+      type: ActionTypes.loginAuthFailure;
+      payload: {};
+    };
+
 export interface IInvestor {
   id: number;
   investor_name: string;

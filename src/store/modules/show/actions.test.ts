@@ -11,20 +11,25 @@ import { IHeaders, IShow } from './types';
 describe('Behavior actions', () => {
   const data: IShow = {
     id: 0,
+    enterprise_name: '',
+    description: '',
     email_enterprise: null,
     facebook: null,
     twitter: null,
     linkedin: null,
     phone: null,
     own_enterprise: null,
-    enterprise_name: '',
     photo: '',
-    description: '',
+    value: 0,
+    shares: 0,
+    share_price: 0,
+    own_shares: 0,
     city: '',
     country: '',
-    value: 0,
-    share_price: 0,
-    enterprise_type: undefined,
+    enterprise_type: {
+      enterprise_type_name: '',
+      id: 0,
+    },
   };
 
   const dataHeader: IHeaders = {

@@ -1,32 +1,38 @@
 import React from 'react';
 import auth, { INITIAL_STATE } from './reducer';
+import { ActionTypes, AuthStoreAction } from './types';
 
 describe('Behavior reducer auth', () => {
   const data = {
     email: 'juniordias@live.com',
     password: '124456',
+    access_token: '',
+    client: '',
+    uid: '',
   };
 
-  const action = {
-    type: 'LOGIN_AUTH_SUCCESS',
-    payload: {
-      data,
-    },
-  };
-
-  const render = (props = action) => auth(INITIAL_STATE, props);
+  const render = (props: AuthStoreAction) => auth(INITIAL_STATE, props);
 
   it('should call reducer auth case loginAuthSuccess', () => {
-    const result = render();
+    const result = render({
+      type: ActionTypes.loginAuthSuccess,
+      payload: {
+        data,
+      },
+    });
 
     expect(result.auth[0]).toMatchObject({
-      data,
+      email: 'juniordias@live.com',
+      password: '124456',
+      access_token: '',
+      client: '',
+      uid: '',
     });
   });
 
   it('should call reducer auth case loginAuthFailure', () => {
     const result = render({
-      type: 'LOGIN_AUTH_FAILURE',
+      type: ActionTypes.loginAuthFailure,
       payload: {},
     });
 
@@ -35,7 +41,7 @@ describe('Behavior reducer auth', () => {
 
   it('should ca llreducer auth case logoutUser', () => {
     const result = render({
-      type: 'LOGOUT_USER',
+      type: ActionTypes.logoutUser,
       payload: {},
     });
 

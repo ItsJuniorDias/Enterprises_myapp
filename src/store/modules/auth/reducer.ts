@@ -1,20 +1,21 @@
 import { Reducer } from 'react';
 import { produce } from 'immer';
-import { ActionTypes, IAuthState } from './types';
+import { ActionTypes, AuthStoreAction, IAuthState } from './types';
 
 export const INITIAL_STATE: IAuthState = {
   auth: [],
 };
 
-const auth: Reducer<IAuthState> = (state = INITIAL_STATE, action) => {
+const auth: Reducer<IAuthState, AuthStoreAction> = (
+  state = INITIAL_STATE,
+  action: AuthStoreAction
+) => {
   return produce(state, (draft) => {
     switch (action.type) {
       case ActionTypes.loginAuthSuccess: {
         const { data } = action.payload;
 
-        draft.auth.push({
-          data,
-        });
+        draft.auth.push(data);
 
         break;
       }

@@ -1,5 +1,5 @@
 /* eslint-disable require-yield */
-import { AxiosResponse } from 'axios';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { all, takeLatest, call, put } from 'redux-saga/effects';
 import api from '../../../services/api';
 import { ActionTypes, IEnterprise } from './types';
@@ -16,12 +16,10 @@ export function* getEnterprises({ payload }: GetEnterpriseRequest) {
   const { headers } = payload;
 
   try {
-    const response: AxiosResponse<IEnterprise | any> = yield call(
+    const response: AxiosResponse<IEnterprise> = yield call(
       api.get,
       '/enterprises',
-      {
-        headers,
-      }
+      { headers }
     );
 
     yield put(getEnterpriseSuccess(response.data));
