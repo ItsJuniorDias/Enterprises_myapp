@@ -22,7 +22,7 @@
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^7.1.0",
     "@unform/mobile": "^2.1.6",
-    "axios": "^1.6.7",
+    "axios": "^1.7.2",
     "immer": "^10.0.3",
     "jest-styled-components": "^7.2.0",
     "metro-react-native-babel-preset": "^0.77.0",
