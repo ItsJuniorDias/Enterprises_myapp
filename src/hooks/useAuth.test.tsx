@@ -2,19 +2,39 @@ import { renderHook } from '@testing-library/react-hooks';
 import { useAuth } from './useAuth';
 
 import { useNavigation } from '@react-navigation/native';
+import { act } from '@testing-library/react-native';
+
+jest.mock('@react-native-firebase/firestore');
 
 const mockUser = { email: 'test@example.com' };
+
+const mockCreateUserWithEmailAndPassword = jest.fn();
 
 jest.mock('@react-native-firebase/auth', () => ({
   __esModule: true,
   default: jest.fn(() => ({
     onAuthStateChanged: jest.fn(),
+    createUserWithEmailAndPassword:
+      mockCreateUserWithEmailAndPassword.mockResolvedValue({
+        id: 'id',
+        name: 'TestName',
+        thumbnail: 'thumbnail_test',
+        email: 'test@gmail.com',
+      }),
   })),
 }));
 
 jest.mock('@react-native-firebase/firestore', () => ({
   __esModule: true,
-  default: jest.fn(),
+  default: jest.fn(() => ({
+    collection: jest.fn().mockReturnValue({
+      add: jest.fn(() => ({
+        _documentPath: {
+          _parts: [null, ''],
+        },
+      })),
+    }),
+  })),
   firestore: jest.fn(() => ({
     collection: jest.fn().mockReturnValue({
       get: jest.fn().mockResolvedValue({
@@ -48,5 +68,19 @@ describe('useAuth hook', () => {
     const { result } = renderHook(() => useAuth());
 
     expect(result.current.user.email).toBe('');
+  });
+
+  it('should call function create user', async () => {
+    const { result } = renderHook(() => useAuth());
+
+    await act(() => {
+      result.current.createUser({
+        email: 'test@gmail.com',
+        name: 'Test',
+        password: '1234456',
+      });
+    });
+
+    expect(mockCreateUserWithEmailAndPassword).toHaveBeenCalled();
   });
 });
