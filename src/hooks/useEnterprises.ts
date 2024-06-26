@@ -12,7 +12,7 @@ export type EnterpriseAction = {
   payload?: {};
 };
 
-export type EnterpriseProps = {
+export type ItemEnterprise = {
   id: string;
   type: string;
   title: string;
@@ -20,6 +20,18 @@ export type EnterpriseProps = {
   thumbnail: string;
   url_link: string;
   title_enterprise: string;
+};
+
+export type EnterpriseProps = {
+  _data: {
+    id: string;
+    type: string;
+    title: string;
+    description: string;
+    thumbnail: string;
+    url_link: string;
+    title_enterprise: string;
+  };
 };
 
 export type EnterpriseState = {

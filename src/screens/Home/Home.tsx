@@ -1,11 +1,20 @@
 import React, { useCallback } from 'react';
 import { View, Image, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
+import Icon from 'react-native-vector-icons/Feather';
 import exit from '../../assets/Vector.png';
 import not from '../../assets/not.png';
-import { InputSearch } from '../../components';
 
-import { EnterpriseProps, useAuth, useEnterprises } from '../../hooks';
+import { InputSearch } from '../../components';
+import { ProfileScreenNavigationProp } from '../../routes';
+
+import {
+  EnterpriseProps,
+  ItemEnterprise,
+  useAuth,
+  useEnterprises,
+} from '../../hooks';
 
 import {
   Container,
@@ -26,8 +35,6 @@ import {
   Thumbnail,
   WithoutThumbnail,
 } from './styles';
-import Icon from 'react-native-vector-icons/Feather';
-import { ProfileScreenNavigationProp } from '../../routes';
 
 export type DataItemProps = {
   _data: EnterpriseProps;
@@ -45,7 +52,7 @@ export const Home = () => {
     navigation.navigate('SignIn');
   };
 
-  const handleShow = async (props) => {
+  const handleShow = async (props: ItemEnterprise) => {
     navigation.navigate('Show', props);
   };
 
@@ -79,8 +86,16 @@ export const Home = () => {
   );
 
   const renderItem = ({
-    _data: { id, title, description, thumbnail, url_link, title_enterprise },
-  }: DataItemProps) => {
+    _data: {
+      id,
+      type,
+      title,
+      description,
+      thumbnail,
+      url_link,
+      title_enterprise,
+    },
+  }: EnterpriseProps) => {
     return (
       <>
         <ContainerCard
@@ -88,6 +103,7 @@ export const Home = () => {
           onPress={() =>
             handleShow({
               id,
+              type,
               title,
               description,
               thumbnail,
@@ -160,7 +176,7 @@ export const Home = () => {
       <InputSearch
         title="Buscar por nome"
         name="filter"
-        callBackParent={(value) => handleFilter(value)}
+        callBackParent={(value: string) => handleFilter(value)}
       />
 
       <ContentFlat>

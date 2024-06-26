@@ -17,29 +17,31 @@ enum AuthActionEnum {
 
 export type AuthAction =
   | {
-      type: 'CREATE';
-      payload?: {
+      type: AuthActionEnum.CREATE;
+      payload: {
         user: User;
         loading: boolean;
       };
     }
   | {
-      type: 'LOADING';
+      type: AuthActionEnum.LOADING;
       payload?: {};
     }
   | {
-      type: 'LOGGED';
-      payload?: {};
+      type: AuthActionEnum.LOGGED;
+      payload: {
+        user: User;
+      };
     }
   | {
-      type: 'LOGIN';
-      payload?: {
+      type: AuthActionEnum.LOGIN;
+      payload: {
         email: string;
         password: string;
       };
     }
   | {
-      type: 'LOGOUT';
+      type: AuthActionEnum.LOGOUT;
       payload?: {};
     };
 
@@ -50,6 +52,10 @@ export type User = {
   thumbnail: string | null;
 };
 
+export type ItemDataUser = {
+  _data: User;
+};
+
 type AuthState = {
   user: User;
   loading: boolean;
@@ -58,8 +64,8 @@ type AuthState = {
 type UseAuth = {
   user: User;
   loading: boolean;
-  createUser: (props: CreateUserProps) => Promise<User>;
-  login: (props: LoginProps) => Promise<User>;
+  createUser: (props: CreateUserProps) => void;
+  login: (props: LoginProps) => void;
   logout: () => Promise<void>;
   formRef: RefObject<FormHandles>;
 };
@@ -70,14 +76,6 @@ const reducer = (state: AuthState, action: AuthAction): AuthState => {
   switch (type) {
     case AuthActionEnum.CREATE:
       const { user, loading } = payload;
-
-      console.log(
-        {
-          user,
-          loading,
-        },
-        'CREATE USER'
-      );
 
       return {
         ...state,
@@ -131,12 +129,18 @@ export const useAuth = (): UseAuth => {
       await auth().onAuthStateChanged(async (user) => {
         const users = await firestore().collection('users').get();
 
-        const findUserLogged = users._docs.find(
+        const userDoc = users._docs.find(
           (item) => item._data.email === user?.email
-        )._data;
+        );
+
+        if (!userDoc) {
+          throw new Error('User not found');
+        }
+
+        const findUserLogged = userDoc._data;
 
         dispatchAuthState({
-          type: 'LOGGED',
+          type: AuthActionEnum.LOGGED,
           payload: {
             user: {
               id: findUserLogged.id,
@@ -167,7 +171,7 @@ export const useAuth = (): UseAuth => {
 
     if (validate) {
       dispatchAuthState({
-        type: 'LOADING',
+        type: AuthActionEnum.LOADING,
         payload: {
           loading: false,
         },
@@ -180,7 +184,8 @@ export const useAuth = (): UseAuth => {
         name,
       });
 
-      let user = {};
+      let user: any = {};
+
       let errorAlreadyInUse: boolean = false;
 
       if (errorAlreadyInUse) {
@@ -206,7 +211,7 @@ export const useAuth = (): UseAuth => {
                 text: 'OK',
                 onPress: () =>
                   dispatchAuthState({
-                    type: 'LOADING',
+                    type: AuthActionEnum.LOADING,
                     payload: {
                       loading: true,
                     },
@@ -217,7 +222,7 @@ export const useAuth = (): UseAuth => {
         });
 
       dispatchAuthState({
-        type: 'CREATE',
+        type: AuthActionEnum.CREATE,
         payload: {
           user: {
             id: _documentPath._parts[1],
@@ -255,12 +260,10 @@ export const useAuth = (): UseAuth => {
     }
   };
 
-  const login = async (props: LoginProps): Promise<User> => {
+  const login = async (props: LoginProps) => {
     const { email, password } = props;
 
-    const response = await auth().signInWithEmailAndPassword(email, password);
-
-    return response.user;
+    await auth().signInWithEmailAndPassword(email, password);
   };
 
   const logout = async (): Promise<void> => {

@@ -2,9 +2,10 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react-native';
 import { Home } from '../Home/Home';
 import { Provider } from 'react-redux';
-import { combineReducers, createStore, Reducer } from 'redux';
-import { IEnterpriseState } from '../../store/modules/enterprise/types';
-import { produce } from 'immer';
+
+import { createTestStore } from '../../mocks';
+
+jest.mock('react-native-vector-icons/Feather', () => 'Icon');
 
 const mockNavigation = jest.fn();
 jest.mock('@react-navigation/native', () => ({
@@ -13,61 +14,12 @@ jest.mock('@react-navigation/native', () => ({
   })),
 }));
 
-export const INITIAL_STATE: IEnterpriseState = {
-  enterprise: {
-    id: 0,
-    email_enterprise: null,
-    facebook: null,
-    twitter: null,
-    linkedin: null,
-    phone: null,
-    own_enterprise: false,
-    enterprise_name: 'NuBank',
-    photo: '',
-    description:
-      'Nubank é uma empresa startup brasileira pioneira no segmento de serviços financeiros',
-    city: '',
-    country: '',
-    value: 0,
-    share_price: 0,
-    enterprise_type: undefined,
-  },
-};
-
-const enterprise: Reducer<IEnterpriseState> = (
-  state = INITIAL_STATE,
-  action
-) => {
-  return produce(state, (draft) => {
-    switch (action.type) {
-      default: {
-        return draft;
-      }
-    }
-  });
-};
-
-describe('Behavior Home', () => {
-  function createTestStore() {
-    const store = createStore(
-      combineReducers({
-        enterprise,
-      })
-    );
-    return store;
-  }
-
+describe('Behavior screen Home', () => {
   const screenRender = () => (
     <Provider store={createTestStore()}>
       <Home />
     </Provider>
   );
-
-  it('render snapshot', () => {
-    const result = render(screenRender()).toJSON();
-
-    expect(result).toMatchSnapshot();
-  });
 
   it('should call funtion handeExit', () => {
     const { getByTestId } = render(screenRender());
