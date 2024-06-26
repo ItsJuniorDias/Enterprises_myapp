@@ -1,5 +1,6 @@
 import React from 'react';
 import enterprise, { INITIAL_STATE } from './reducer';
+import { ActionTypes, EnterprisesAction } from './types';
 
 describe('Behavior reducer auth', () => {
   const data = {
@@ -18,32 +19,31 @@ describe('Behavior reducer auth', () => {
       country: '',
       value: 0,
       share_price: 0,
-      enterprise_type: undefined,
+      enterprise_type: {
+        enterprise_type_name: '',
+        id: 0,
+      },
     },
   };
 
-  const action = {
-    type: 'GET_ENTERPRISE_SUCCESS',
-    payload: {
-      data,
-    },
-  };
-
-  const render = (props = action) => enterprise(INITIAL_STATE, props);
+  const render = (props: EnterprisesAction) => enterprise(INITIAL_STATE, props);
 
   it('should call reducer enterprise case getEnterpriseSuccess', () => {
-    const result = render();
+    const result = render({
+      type: ActionTypes.getEnterpriseSuccess,
+      payload: {
+        data,
+      },
+    });
 
     expect(result).toMatchObject(data.enterprises);
   });
 
   it('should call reducer enterprise case getEnterpriseFailure', () => {
-    const action = {
-      type: 'GET_ENTERPRISE_FAILURE',
+    const result = render({
+      type: ActionTypes.getEnterpriseFailure,
       payload: {},
-    };
-
-    const result = render(action);
+    });
 
     expect(result.enterprise).toMatchObject({});
   });

@@ -1,13 +1,41 @@
 import { produce } from 'immer';
 import { Reducer } from 'react';
-import { IShowState, ActionTypes } from './types';
+import { IShowState, ActionTypes, ShowAction } from './types';
 
 export const INITIAL_STATE: IShowState = {
-  show: {},
-  headers: {},
+  show: {
+    id: 0,
+    enterprise_name: '',
+    description: '',
+    email_enterprise: null,
+    facebook: null,
+    twitter: null,
+    linkedin: null,
+    phone: null,
+    own_enterprise: null,
+    photo: '',
+    value: 0,
+    shares: 0,
+    share_price: 0,
+    own_shares: 0,
+    city: '',
+    country: '',
+    enterprise_type: {
+      enterprise_type_name: '',
+      id: 0,
+    },
+  },
+  headers: {
+    uid: '',
+    client: '',
+    'access-token': '',
+  },
 };
 
-const show: Reducer<IShowState> = (state = INITIAL_STATE, action) => {
+const show: Reducer<IShowState, ShowAction> = (
+  state = INITIAL_STATE,
+  action: ShowAction
+) => {
   return produce(state, (draft) => {
     switch (action.type) {
       case ActionTypes.successShow: {
@@ -22,15 +50,18 @@ const show: Reducer<IShowState> = (state = INITIAL_STATE, action) => {
         const { headers } = action.payload;
 
         return {
+          ...draft,
           ...headers,
         };
       }
       case ActionTypes.resetState: {
         const { enterprise } = action.payload;
 
+        const show = enterprise;
+
         return {
           ...draft,
-          enterprise,
+          show,
         };
       }
       case ActionTypes.failureShow: {

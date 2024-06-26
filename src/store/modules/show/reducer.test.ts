@@ -1,6 +1,6 @@
 import React from 'react';
 import show, { INITIAL_STATE } from './reducer';
-import { IShow } from './types';
+import { ActionTypes, IShow, ShowAction } from './types';
 
 describe('Behavior reducer show', () => {
   const data: IShow = {
@@ -32,17 +32,15 @@ describe('Behavior reducer show', () => {
     'access-token': 'access-token',
   };
 
-  const action = {
-    type: 'SUCCESS_SHOW',
-    payload: {
-      data,
-    },
-  };
-
-  const render = (props = action) => show(INITIAL_STATE, props);
+  const render = (props: ShowAction) => show(INITIAL_STATE, props);
 
   it('should call reducer show case successShow', () => {
-    const result = render();
+    const result = render({
+      type: ActionTypes.successShow,
+      payload: {
+        data,
+      },
+    });
 
     expect(result).toMatchObject(data);
   });
@@ -55,33 +53,32 @@ describe('Behavior reducer show', () => {
       },
     };
 
-    const result = render(action);
+    const result = render({
+      type: ActionTypes.requestHeaders,
+      payload: {
+        headers,
+      },
+    });
 
     expect(result).toMatchObject(headers);
   });
 
   it('should call reducer show case resetState', () => {
-    const enterprise = {};
-
-    const action = {
-      type: 'RESET_STATE',
+    const result = render({
+      type: ActionTypes.resetState,
       payload: {
-        enterprise,
+        enterprise: data,
       },
-    };
+    });
 
-    const result = render(action);
-
-    expect(result).toMatchObject(enterprise);
+    expect(result.show).toMatchObject(data);
   });
 
   it('should call reducer show case failureShow', () => {
-    const action = {
-      type: 'FAILURE_SHOW',
+    const result = render({
+      type: ActionTypes.failureShow,
       payload: {},
-    };
-
-    const result = render(action);
+    });
 
     expect(result).toMatchObject({
       show: {},

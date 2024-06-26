@@ -5,6 +5,20 @@ export enum ActionTypes {
   getEnterpriseHeadersSuccess = 'GET_ENTERPRISE_HEADERS_SUCCESS',
 }
 
+export type EnterprisesAction =
+  | {
+      type: ActionTypes.getEnterpriseSuccess;
+      payload: {
+        data: {
+          enterprises: IEnterprise;
+        };
+      };
+    }
+  | {
+      type: ActionTypes.getEnterpriseFailure;
+      payload: {};
+    };
+
 interface TypeEnterprise {
   id: number;
   enterprise_type_name: string;

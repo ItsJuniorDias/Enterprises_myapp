@@ -9,6 +9,30 @@ export enum ActionTypes {
   resetState = 'RESET_STATE',
 }
 
+export type ShowAction =
+  | {
+      type: ActionTypes.successShow;
+      payload: {
+        data: IShow;
+      };
+    }
+  | {
+      type: ActionTypes.requestHeaders;
+      payload: {
+        headers: IHeaders;
+      };
+    }
+  | {
+      type: ActionTypes.resetState;
+      payload: {
+        enterprise: IShow;
+      };
+    }
+  | {
+      type: ActionTypes.failureShow;
+      payload: {};
+    };
+
 interface IEnterpriseType {
   id: number;
   enterprise_type_name: string;
