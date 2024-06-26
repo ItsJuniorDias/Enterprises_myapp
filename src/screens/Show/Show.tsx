@@ -23,17 +23,22 @@ import {
   ContentText,
 } from './styles';
 import { ProfileScreenNavigationProp } from '../../routes';
+import { IShow } from '../../store/modules/show/types';
+import { EnterpriseProps, ItemEnterprise } from '../../hooks';
 
-export const Show = ({ route }) => {
+export type ShowProps = {
+  route: {
+    params: ItemEnterprise;
+  };
+};
+
+export const Show = ({ route }: ShowProps) => {
   const { id, title, description, thumbnail, url_link, title_enterprise } =
     route.params;
 
   const navigation = useNavigation<ProfileScreenNavigationProp>();
-  const dispatch = useDispatch();
 
   function handleBackButtonClick() {
-    dispatch(resetState());
-
     navigation.navigate('Home');
     return true;
   }
@@ -54,7 +59,7 @@ export const Show = ({ route }) => {
   };
 
   const handlePress = useCallback(
-    async (url_link) => {
+    async (url_link: string) => {
       // Checking if the link is supported for links with custom URL scheme.
       const supported = await Linking.canOpenURL(url_link);
 

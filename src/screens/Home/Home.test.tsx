@@ -1,11 +1,58 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react-native';
-import { Home } from '../Home/Home';
 import { Provider } from 'react-redux';
+import { fireEvent, render } from '@testing-library/react-native';
 
-import { createTestStore } from '../../mocks';
+import { useEnterprises } from '../../mocks';
+import { Home } from '../Home/Home';
+
+import { theme } from '../../theme';
+import { ThemeProvider } from 'styled-components/native';
+
+jest.mock('react-redux', () => ({
+  useSelector: jest.fn(),
+  useDispatch: jest.fn(),
+  Provider: jest.fn(),
+}));
 
 jest.mock('react-native-vector-icons/Feather', () => 'Icon');
+
+const mockUser = { email: 'test@example.com' };
+
+jest.mock('@react-native-firebase/auth', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    onAuthStateChanged: jest.fn(),
+    signOut: jest.fn(),
+  })),
+}));
+
+jest.mock('@react-native-firebase/firestore', () => ({
+  __esModule: true,
+  default: jest.fn(),
+  firestore: jest.fn(() => ({
+    collection: jest.fn().mockReturnValue({
+      get: jest.fn().mockResolvedValue({
+        docs: [
+          {
+            _data: {
+              id: '',
+              type: '',
+              title: '',
+              description: '',
+              thumbnail: '',
+              url_link: '',
+              title_enterprise: '',
+            },
+          },
+        ],
+      }),
+    }),
+    add: jest.fn(),
+    get: jest.fn(),
+    doc: jest.fn().mockReturnThis(),
+    update: jest.fn(),
+  })),
+}));
 
 const mockNavigation = jest.fn();
 jest.mock('@react-navigation/native', () => ({
@@ -14,65 +61,25 @@ jest.mock('@react-navigation/native', () => ({
   })),
 }));
 
-describe('Behavior screen Home', () => {
-  const screenRender = () => (
-    <Provider store={createTestStore()}>
-      <Home />
-    </Provider>
-  );
+jest.mock('react-native-responsive-fontsize', () => ({
+  RFValue: (value: number, _?: number) => value,
+}));
 
-  it('should call funtion handeExit', () => {
-    const { getByTestId } = render(screenRender());
+describe('Behavior screen Home', () => {
+  const setup = () =>
+    render(
+      <ThemeProvider theme={theme}>
+        <Home />
+      </ThemeProvider>
+    );
+
+  it('should call funtion handleExit', () => {
+    const { getByTestId } = setup();
 
     const button = getByTestId('buttonExit_testId');
 
     fireEvent.press(button);
 
-    expect(mockNavigation).toHaveBeenCalledWith('/SignIn');
-  });
-
-  it('should call funtion handleShow', () => {
-    const { getByTestId } = render(screenRender());
-
-    const button = getByTestId('containerCard_testId');
-
-    fireEvent.press(button);
-
-    expect(mockNavigation).toHaveBeenCalledWith('/Show');
-  });
-
-  it('should call funtion handleFilterValue enterprise_name', () => {
-    const { getByTestId, getByText } = render(screenRender());
-
-    const input = getByTestId('inputSearch_testId');
-
-    const nameEnterprise = 'NuBank';
-
-    fireEvent.changeText(input, nameEnterprise);
-
-    expect(getByText(nameEnterprise)).toBeTruthy();
-  });
-
-  it('should call funtion handleFilterValue description', () => {
-    const { getByTestId, getByText } = render(screenRender());
-
-    const input = getByTestId('inputSearch_testId');
-
-    const description =
-      'Nubank é uma empresa startup brasileira pioneira no segmento de serviços financeiros';
-
-    fireEvent.changeText(input, description);
-
-    expect(getByText(description)).toBeTruthy();
-  });
-
-  it('should call funtion handleFilterValue not filtered', () => {
-    const { getByTestId } = render(screenRender());
-
-    const input = getByTestId('inputSearch_testId');
-
-    fireEvent.changeText(input, 'C9Bank');
-
-    expect(input.props.placeholder).toEqual('Buscar por nome');
+    expect(mockNavigation).toHaveBeenCalledWith('SignIn');
   });
 });

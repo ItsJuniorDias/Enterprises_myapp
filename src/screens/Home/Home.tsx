@@ -44,9 +44,10 @@ export const Home = () => {
   const navigation = useNavigation<ProfileScreenNavigationProp>();
 
   const { logout, user } = useAuth();
+
   const { state, dispatch } = useEnterprises();
 
-  const handeExit = () => {
+  const handleExit = () => {
     logout();
 
     navigation.navigate('SignIn');
@@ -139,6 +140,8 @@ export const Home = () => {
     </>
   );
 
+  console.log(state._data, 'DATA STATE');
+
   return (
     <Container>
       <Header>
@@ -168,7 +171,7 @@ export const Home = () => {
           <Description>Bem-vindo(a)</Description>
         </View>
 
-        <TouchableExit testID="buttonExit_testId" onPress={() => handeExit()}>
+        <TouchableExit testID="buttonExit_testId" onPress={() => handleExit()}>
           <Image source={exit} />
         </TouchableExit>
       </Header>

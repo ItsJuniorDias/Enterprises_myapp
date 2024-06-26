@@ -13,6 +13,7 @@ export const Container = styled.View`
   padding: ${`${RFValue(24)}px ${RFValue(24)}px`};
 `;
 
+
 export const Header = styled.View`
   width: 100%;
   height: ${RFValue(116)}px;

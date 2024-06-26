@@ -28,6 +28,42 @@ jest.mock('react-native-responsive-fontsize', () => ({
   RFValue: (value: number, _?: number) => value,
 }));
 
+jest.mock('@react-native-firebase/auth', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    onAuthStateChanged: jest.fn(),
+    signOut: jest.fn(),
+  })),
+}));
+
+jest.mock('@react-native-firebase/firestore', () => ({
+  __esModule: true,
+  default: jest.fn(),
+  firestore: jest.fn(() => ({
+    collection: jest.fn().mockReturnValue({
+      get: jest.fn().mockResolvedValue({
+        docs: [
+          {
+            _data: {
+              id: '',
+              type: '',
+              title: '',
+              description: '',
+              thumbnail: '',
+              url_link: '',
+              title_enterprise: '',
+            },
+          },
+        ],
+      }),
+    }),
+    add: jest.fn(),
+    get: jest.fn(),
+    doc: jest.fn().mockReturnThis(),
+    update: jest.fn(),
+  })),
+}));
+
 describe('Behavior screen SignIn', () => {
   const screenRender = () => (
     <ThemeProvider theme={theme}>

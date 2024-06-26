@@ -22,7 +22,10 @@ describe('Behavior actions', () => {
     country: '',
     value: 0,
     share_price: 0,
-    enterprise_type: undefined,
+    enterprise_type: {
+      enterprise_type_name: '',
+      id: 0,
+    },
   };
 
   const dataHeader = {
