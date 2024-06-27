@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -28,24 +27,22 @@ export type ProfileScreenNavigationProp =
   NativeStackNavigationProp<RootStackParamList>;
 
 const AuthRoutes = () => (
-  <NavigationContainer>
-    <Stack.Navigator
-      initialRouteName="SignIn"
-      screenOptions={{
-        headerShown: false,
-        cardStyle: {
-          backgroundColor: '#fff',
-        },
-      }}
-    >
-      <Stack.Screen name="SignIn" component={SignIn} />
-      <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Show" component={Show} />
-      <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
-    </Stack.Navigator>
-  </NavigationContainer>
+  <Stack.Navigator
+    initialRouteName="SignIn"
+    screenOptions={{
+      headerShown: false,
+      cardStyle: {
+        backgroundColor: '#fff',
+      },
+    }}
+  >
+    <Stack.Screen name="SignIn" component={SignIn} />
+    <Stack.Screen name="SignUp" component={SignUp} />
+    <Stack.Screen name="Profile" component={Profile} />
+    <Stack.Screen name="Home" component={Home} />
+    <Stack.Screen name="Show" component={Show} />
+    <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+  </Stack.Navigator>
 );
 
 export default AuthRoutes;
