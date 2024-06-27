@@ -6,11 +6,11 @@ import firestore from '@react-native-firebase/firestore';
 import { FormHandles } from '@unform/core';
 import { CreateUserProps, LoginProps } from '../@types';
 import { ProfileScreenNavigationProp } from '../routes';
+import { onAuthStateChanged } from '../utils';
 
-enum AuthActionEnum {
+export enum AuthActionEnum {
   CREATE = 'CREATE',
   LOADING = 'LOADING',
-  LOGIN = 'LOGIN',
   LOGGED = 'LOGGED',
   LOGOUT = 'LOGOUT',
 }
@@ -32,17 +32,6 @@ export type AuthAction =
       payload: {
         user: User;
       };
-    }
-  | {
-      type: AuthActionEnum.LOGIN;
-      payload: {
-        email: string;
-        password: string;
-      };
-    }
-  | {
-      type: AuthActionEnum.LOGOUT;
-      payload?: {};
     };
 
 export type User = {
@@ -87,17 +76,7 @@ const reducer = (state: AuthState, action: AuthAction): AuthState => {
         ...state,
         ...payload,
       };
-    case AuthActionEnum.LOGIN:
-      return {
-        ...state,
-        ...payload,
-      };
     case AuthActionEnum.LOGGED:
-      return {
-        ...state,
-        ...payload,
-      };
-    case AuthActionEnum.LOGOUT:
       return {
         ...state,
         ...payload,
@@ -125,43 +104,10 @@ export const useAuth = (): UseAuth => {
   const formRef = useRef<FormHandles>(null);
 
   useEffect(() => {
-    const onAuthStateChanged = async () => {
-      await auth().onAuthStateChanged(async (user) => {
-        const users = await firestore().collection('users').get();
-
-        const userDoc = users._docs.find(
-          (item) => item._data.email === user?.email
-        );
-
-        if (!userDoc) {
-          throw new Error('User not found');
-        }
-
-        const findUserLogged = userDoc._data;
-
-        dispatchAuthState({
-          type: AuthActionEnum.LOGGED,
-          payload: {
-            user: {
-              id: findUserLogged.id,
-              name: findUserLogged.name,
-              email: findUserLogged.email,
-              thumbnail: findUserLogged.thumbnail,
-            },
-          },
-        });
-
-        if (initializing) {
-          setInitializing(false);
-        }
-
-        if (user) {
-          return navigation.navigate('Home');
-        }
-      });
-    };
-
-    onAuthStateChanged();
+    onAuthStateChanged({
+      dispatchAuthState,
+      navigation,
+    });
   }, []);
 
   const createUser = async (props: CreateUserProps) => {
