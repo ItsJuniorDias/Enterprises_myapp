@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import React, { useRef } from 'react';
-import { ActivityIndicator, Pressable } from 'react-native';
+import { ActivityIndicator, Pressable, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { theme } from '../../theme';
 import { Button } from '../../components';
@@ -11,16 +11,25 @@ import { useAuth } from '../../hooks';
 import { Container, Title, Body, TouchableText, Text } from './styles';
 
 export const SignUp = () => {
+  const testIDs = useRef({
+    inputName: 'input_name_testID',
+    inputEmail: 'input_email_testID',
+    inputPassword: 'input_password_testID',
+    button: 'button_testID',
+    pressable: 'pressable_testID',
+  }).current;
+
   const { createUser, loading, formRef } = useAuth();
 
   const navigation = useNavigation();
 
-  const emailInputRef = useRef(null);
-  const passwordInputRef = useRef(null);
+  const emailInputRef = useRef<TextInput>(null);
+  const passwordInputRef = useRef<TextInput>(null);
 
   return (
     <Container>
       <Pressable
+        testID="pressable_back_testID"
         onPress={() => navigation.goBack()}
         style={({ pressed }) => [
           {
@@ -36,6 +45,7 @@ export const SignUp = () => {
       <Body>
         <Form ref={formRef} onSubmit={(props) => createUser(props)}>
           <Input
+            testID={testIDs.inputName}
             name="name"
             icon="user"
             placeholder="Nome"
@@ -45,6 +55,7 @@ export const SignUp = () => {
           />
 
           <Input
+            testID={testIDs.inputEmail}
             ref={emailInputRef}
             autoCorrect={false}
             autoCapitalize="none"
@@ -59,6 +70,7 @@ export const SignUp = () => {
           />
 
           <Input
+            testID={testIDs.inputPassword}
             ref={passwordInputRef}
             secureTextEntry
             name="password"
@@ -71,19 +83,25 @@ export const SignUp = () => {
           />
 
           <Button
+            testID={testIDs.button}
             activeOpacity={0.6}
             onPress={() => {
               formRef.current?.submitForm();
             }}
           >
             {!loading ? (
-              <ActivityIndicator size="small" color="#FFFFFF" />
+              <ActivityIndicator
+                testID="activity-indicator_testID"
+                size="small"
+                color="#FFFFFF"
+              />
             ) : (
               'Inscrever-se'
             )}
           </Button>
 
           <TouchableText
+            testID={testIDs.pressable}
             onPress={() => navigation.goBack()}
             activeOpacity={0.6}
           >
