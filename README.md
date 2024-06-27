@@ -7,6 +7,10 @@ Application built with React Native in order to show data from a companies api
 #### Figma
 - https://www.figma.com/file/hpGJBnIemQLAZSWGjaodjn/Enterprises?node-id=0%3A1
 
+#### Unit Test
+<img width="1431" alt="Captura de Tela 2024-06-27 às 16 59 07" src="https://github.com/ItsJuniorDias/Enterprises_myapp/assets/50254416/630ecb8c-9444-429c-9baf-30740326333d">
+
+
 ### Tools
 - **Axios** were used for consumption by Api
 - **Styled-component** to work with customizable components
