@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { useAuth } from './useAuth';
+import { AuthActionEnum, useAuth } from './useAuth';
 
 import { useNavigation } from '@react-navigation/native';
 import { act } from '@testing-library/react-native';
@@ -11,6 +11,7 @@ const mockUser = { email: 'test@example.com', password: '1234567' };
 const mockCreateUserWithEmailAndPassword = jest.fn();
 const mockSignInWithEmailAndPassword = jest.fn();
 const mockOnAuthStateChanged = jest.fn();
+const mockSignOut = jest.fn();
 
 jest.mock('@react-native-firebase/auth', () => ({
   __esModule: true,
@@ -18,6 +19,7 @@ jest.mock('@react-native-firebase/auth', () => ({
     onAuthStateChanged: mockOnAuthStateChanged.mockReturnValue(mockUser),
     createUserWithEmailAndPassword: mockCreateUserWithEmailAndPassword,
     signInWithEmailAndPassword: mockSignInWithEmailAndPassword,
+    signOut: mockSignOut,
   })),
 }));
 
@@ -70,6 +72,14 @@ describe('useAuth hook', () => {
     const { result } = renderHook(() => useAuth());
 
     expect(result.current.user.email).toBe('');
+  });
+
+  it('should call function logout', async () => {
+    const { result } = renderHook(() => useAuth());
+
+    result.current.logout();
+
+    expect(mockSignOut).toHaveBeenCalled();
   });
 
   it('should call function createUser', async () => {
@@ -130,5 +140,48 @@ describe('useAuth hook', () => {
     });
 
     expect(mockSignInWithEmailAndPassword).toHaveBeenCalled();
+  });
+
+  it('should call case default', async () => {
+    const { result } = renderHook(() => useAuth());
+
+    await act(() => {
+      result.current.dispatchAuthState({
+        type: AuthActionEnum.DEFAULT,
+        payload: {},
+      });
+    });
+
+    expect(result.current.user).toEqual({
+      email: '',
+      id: '',
+      name: '',
+      thumbnail: '',
+    });
+  });
+
+  it('should call function LOGGED', async () => {
+    const { result } = renderHook(() => useAuth());
+
+    await act(() => {
+      result.current.dispatchAuthState({
+        type: AuthActionEnum.LOGGED,
+        payload: {
+          user: {
+            id: 'id',
+            name: 'Test',
+            email: 'test@gmail.com',
+            thumbnail: '',
+          },
+        },
+      });
+    });
+
+    expect(result.current.user).toEqual({
+      id: 'id',
+      name: 'Test',
+      email: 'test@gmail.com',
+      thumbnail: '',
+    });
   });
 });

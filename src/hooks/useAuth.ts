@@ -13,6 +13,7 @@ export enum AuthActionEnum {
   LOADING = 'LOADING',
   LOGGED = 'LOGGED',
   LOGOUT = 'LOGOUT',
+  DEFAULT = 'DEFAULT',
 }
 
 export type AuthAction =
@@ -32,6 +33,10 @@ export type AuthAction =
       payload: {
         user: User;
       };
+    }
+  | {
+      type: AuthActionEnum.DEFAULT;
+      payload: {};
     };
 
 export type User = {
@@ -57,6 +62,7 @@ type UseAuth = {
   login: (props: LoginProps) => void;
   logout: () => Promise<void>;
   formRef: RefObject<FormHandles>;
+  dispatchAuthState: React.Dispatch<AuthAction>;
 };
 
 const reducer = (state: AuthState, action: AuthAction): AuthState => {
@@ -218,6 +224,7 @@ export const useAuth = (): UseAuth => {
 
   return {
     ...authState,
+    dispatchAuthState,
     createUser,
     formRef,
     login,

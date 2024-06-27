@@ -1,14 +1,15 @@
 import { useEffect, useReducer } from 'react';
 import firestore from '@react-native-firebase/firestore';
 
-enum EnterpriseActionEnum {
+export enum EnterpriseActionEnum {
   FETCH = 'FETCH',
   LOADING = 'LOADING',
   FILTERED = 'FILTERED',
+  DEFAULT = 'DEFAULT',
 }
 
 export type EnterpriseAction = {
-  type: 'FETCH' | 'LOADING' | 'FILTERED';
+  type: 'FETCH' | 'LOADING' | 'FILTERED' | 'DEFAULT';
   payload?: {};
 };
 

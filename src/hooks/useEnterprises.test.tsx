@@ -1,14 +1,13 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { useEnterprises } from './useEnterprises';
+import { EnterpriseActionEnum, useEnterprises } from './useEnterprises';
 
 import { useNavigation } from '@react-navigation/native';
 
 jest.mock('@react-native-firebase/firestore', () => ({
   __esModule: true,
-  default: jest.fn(),
-  firestore: jest.fn(() => ({
+  default: jest.fn(() => ({
     collection: jest.fn().mockReturnValue({
-      get: jest.fn().mockResolvedValue({
+      get: jest.fn().mockReturnValue({
         docs: [
           {
             _data: {
@@ -22,6 +21,13 @@ jest.mock('@react-native-firebase/firestore', () => ({
             },
           },
         ],
+      }),
+    }),
+  })),
+  firestore: jest.fn(() => ({
+    collection: jest.fn().mockReturnValue({
+      get: jest.fn().mockReturnValue({
+        docs: [],
       }),
     }),
     add: jest.fn(),
@@ -44,6 +50,31 @@ describe('useEnterprises hook', () => {
 
   it('should initialize with loading state', () => {
     const { result } = renderHook(() => useEnterprises());
+
+    expect(result.current.state.loading).toBe(true);
+  });
+
+  it('should call function dispatch', () => {
+    const { result } = renderHook(() => useEnterprises());
+
+    result.current.dispatch({
+      type: EnterpriseActionEnum.FILTERED,
+      payload: {
+        dataFiltered: [],
+        isFiltered: true,
+      },
+    });
+
+    expect(result.current.state.isFiltered).toBe(true);
+  });
+
+  it('should call case default', () => {
+    const { result } = renderHook(() => useEnterprises());
+
+    result.current.dispatch({
+      type: 'DEFAULT',
+      payload: {},
+    });
 
     expect(result.current.state.loading).toBe(true);
   });
