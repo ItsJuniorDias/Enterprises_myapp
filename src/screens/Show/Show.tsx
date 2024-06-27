@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Image, ScrollView, BackHandler, Linking, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-import { resetState } from '../../store/modules/show/actions';
+
 import arrow from '../../assets/arrow.png';
 
 import {
@@ -23,8 +22,8 @@ import {
   ContentText,
 } from './styles';
 import { ProfileScreenNavigationProp } from '../../routes';
-import { IShow } from '../../store/modules/show/types';
-import { EnterpriseProps, ItemEnterprise } from '../../hooks';
+
+import { ItemEnterprise } from '../../hooks';
 
 export type ShowProps = {
   route: {
@@ -40,6 +39,7 @@ export const Show = ({ route }: ShowProps) => {
 
   function handleBackButtonClick() {
     navigation.navigate('Home');
+
     return true;
   }
 
@@ -60,12 +60,9 @@ export const Show = ({ route }: ShowProps) => {
 
   const handlePress = useCallback(
     async (url_link: string) => {
-      // Checking if the link is supported for links with custom URL scheme.
       const supported = await Linking.canOpenURL(url_link);
 
       if (supported) {
-        // Opening the link with some app, if the URL scheme is "http" the web link should be opened
-        // by some browser in the mobile
         await Linking.openURL(url_link);
       } else {
         Alert.alert(`Não foi possível abrir este URL: ${url_link}`);
@@ -113,6 +110,7 @@ export const Show = ({ route }: ShowProps) => {
           <TitleBody>Link:</TitleBody>
 
           <PressableLink
+            testID="pressableLink_testID"
             onPress={() => handlePress(url_link)}
             style={({ pressed }) => [
               {

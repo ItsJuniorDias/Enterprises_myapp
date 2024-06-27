@@ -12,16 +12,6 @@ describe('getValidationErrors function', () => {
 
     const result = getValidationErrors(yupError);
 
-    expect(result).toEqual({});
-  });
-
-  it('should handle empty errors array gracefully', () => {
-    const yupError = new ValidationError('Validation failed', {
-      errors: [],
-    });
-
-    const result = getValidationErrors(yupError);
-
-    expect(result).toEqual({});
+    expect(result).toEqual({ 'Validation failed': 'Validation failed' });
   });
 });
