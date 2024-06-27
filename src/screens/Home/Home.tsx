@@ -139,8 +139,6 @@ export const Home = () => {
     </>
   );
 
-  console.log(state._data, 'DATA STATE');
-
   return (
     <Container>
       <Header>
