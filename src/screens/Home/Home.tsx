@@ -44,7 +44,6 @@ export const Home = () => {
   const navigation = useNavigation<ProfileScreenNavigationProp>();
 
   const { logout, user } = useAuth();
-
   const { state, dispatch } = useEnterprises();
 
   const handleExit = () => {

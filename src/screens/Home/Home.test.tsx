@@ -1,71 +1,54 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import { fireEvent, render } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
 
-import { useEnterprises } from '../../mocks';
-import { Home } from '../Home/Home';
-
-import { theme } from '../../theme';
+import { Home } from './Home';
 import { ThemeProvider } from 'styled-components/native';
+import { theme } from '../../theme';
 
-jest.mock('react-redux', () => ({
-  useSelector: jest.fn(),
-  useDispatch: jest.fn(),
-  Provider: jest.fn(),
+const mockNavigate = jest.fn();
+const mockGoBack = jest.fn();
+
+jest.mock('@react-navigation/native', () => ({
+  useNavigation: () => ({
+    navigate: mockNavigate,
+    goBack: mockGoBack,
+  }),
+}));
+
+const mockDispatch = jest.fn();
+const mockLogout = jest.fn();
+
+jest.mock('../../hooks', () => ({
+  useAuth: jest.fn(() => ({
+    logout: mockLogout,
+    user: {
+      name: 'Test User',
+      thumbnail: 'http://example.com/thumbnail.png',
+    },
+  })),
+  useEnterprises: jest.fn(() => ({
+    state: {
+      _data: [
+        { _data: { title: 'Test Title', description: 'Test Description' } },
+      ],
+      isFiltered: false,
+      dataFiltered: [],
+    },
+    dispatch: mockDispatch,
+  })),
 }));
 
 jest.mock('react-native-vector-icons/Feather', () => 'Icon');
-
-const mockUser = { email: 'test@example.com' };
-
-jest.mock('@react-native-firebase/auth', () => ({
-  __esModule: true,
-  default: jest.fn(() => ({
-    onAuthStateChanged: jest.fn(),
-    signOut: jest.fn(),
-  })),
-}));
-
-jest.mock('@react-native-firebase/firestore', () => ({
-  __esModule: true,
-  default: jest.fn(),
-  firestore: jest.fn(() => ({
-    collection: jest.fn().mockReturnValue({
-      get: jest.fn().mockResolvedValue({
-        docs: [
-          {
-            _data: {
-              id: '',
-              type: '',
-              title: '',
-              description: '',
-              thumbnail: '',
-              url_link: '',
-              title_enterprise: '',
-            },
-          },
-        ],
-      }),
-    }),
-    add: jest.fn(),
-    get: jest.fn(),
-    doc: jest.fn().mockReturnThis(),
-    update: jest.fn(),
-  })),
-}));
-
-const mockNavigation = jest.fn();
-jest.mock('@react-navigation/native', () => ({
-  useNavigation: jest.fn(() => ({
-    navigate: mockNavigation,
-  })),
-}));
 
 jest.mock('react-native-responsive-fontsize', () => ({
   RFValue: (value: number, _?: number) => value,
 }));
 
-describe('Behavior screen Home', () => {
+describe('Home screen', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   const setup = () =>
     render(
       <ThemeProvider theme={theme}>
@@ -73,13 +56,47 @@ describe('Behavior screen Home', () => {
       </ThemeProvider>
     );
 
-  it('should call funtion handleExit', () => {
+  it('renders correctly', () => {
+    const { getByText, getByTestId } = setup();
+
+    expect(getByText('Olá, Test User!')).toBeTruthy();
+    expect(getByTestId('buttonExit_testId')).toBeTruthy();
+  });
+
+  it('navigates to SignIn on logout', () => {
     const { getByTestId } = setup();
 
-    const button = getByTestId('buttonExit_testId');
+    fireEvent.press(getByTestId('buttonExit_testId'));
 
-    fireEvent.press(button);
+    expect(mockNavigate).toHaveBeenCalledWith('SignIn');
+  });
 
-    expect(mockNavigation).toHaveBeenCalledWith('SignIn');
+  it('navigates to Profile when RowThumbnail is pressed', () => {
+    const { getByText } = setup();
+
+    fireEvent.press(getByText('Olá, Test User!'));
+
+    expect(mockNavigate).toHaveBeenCalledWith('Profile', {
+      name: 'Test User',
+      thumbnail: 'http://example.com/thumbnail.png',
+    });
+  });
+
+  it('should call function handleShow', () => {
+    const { getByTestId } = setup();
+
+    fireEvent.press(getByTestId('containerCard_testId'));
+
+    expect(mockNavigate).toHaveBeenCalled();
+  });
+
+  it('should render inputSearch and call function', () => {
+    const { getByTestId } = setup();
+
+    const input = getByTestId('inputSearch_testId');
+
+    fireEvent.changeText(input, 'React Native');
+
+    expect(mockDispatch).toHaveBeenCalled();
   });
 });
