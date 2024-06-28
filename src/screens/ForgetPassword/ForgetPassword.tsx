@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { TextInput, Alert, Pressable } from 'react-native';
+import { View, TextInput, Alert, Pressable } from 'react-native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import { useNavigation } from '@react-navigation/native';
@@ -7,17 +7,27 @@ import Input from '../../components/Input/Input';
 import { Button } from '../../components';
 import auth from '@react-native-firebase/auth';
 
-import { Container, Title, Header, Body, ContentButton, Text } from './styles';
+import { Container, Title, Header, Body, Text } from './styles';
 import Icon from 'react-native-vector-icons/Feather';
 import { theme } from '../../theme';
 
+export type ResetPasswordProps = {
+  email: string;
+};
+
 export const ForgetPassword = () => {
+  const testIDs = useRef({
+    pressable: 'pressable_testID',
+    inputEmail: 'input_email_testID',
+    button: 'button_testID',
+  }).current;
+
   const navigation = useNavigation();
 
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
 
-  const handleResetPassword = async (props) => {
+  const handleResetPassword = async (props: ResetPasswordProps) => {
     if (!props.email) {
       Alert.alert('Digite seu email', 'confirme seu email', [
         {
@@ -63,6 +73,7 @@ export const ForgetPassword = () => {
     <>
       <Container>
         <Pressable
+          testID={testIDs.pressable}
           onPress={() => navigation.goBack()}
           style={({ pressed }) => [
             {
@@ -82,8 +93,12 @@ export const ForgetPassword = () => {
         </Header>
 
         <Body>
-          <Form ref={formRef} onSubmit={(props) => handleResetPassword(props)}>
+          <Form
+            ref={formRef}
+            onSubmit={(props: ResetPasswordProps) => handleResetPassword(props)}
+          >
             <Input
+              testID={testIDs.inputEmail}
               autoCorrect={false}
               autoCapitalize="none"
               keyboardType="email-address"
@@ -98,8 +113,9 @@ export const ForgetPassword = () => {
           </Form>
         </Body>
 
-        <ContentButton>
+        <View>
           <Button
+            testID={testIDs.button}
             activeOpacity={0.6}
             onPress={() => {
               formRef.current?.submitForm();
@@ -107,7 +123,7 @@ export const ForgetPassword = () => {
           >
             Esqueceu sua senha ?
           </Button>
-        </ContentButton>
+        </View>
       </Container>
     </>
   );

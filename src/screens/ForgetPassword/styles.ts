@@ -4,10 +4,6 @@ import { Dimensions } from 'react-native';
 
 const windowDimensions = Dimensions.get('window').height;
 
-type TouchableTextProps = {
-  isAlign: boolean;
-};
-
 type TextProps = {
   isBold?: boolean;
 };
@@ -32,18 +28,9 @@ export const Body = styled.View`
   height: ${windowDimensions <= 592 ? RFValue(216) : RFValue(230)}px;
 `;
 
-export const TouchableText = styled.TouchableOpacity<TouchableTextProps>`
-  width: 100%;
-  flex-direction: row;
-  justify-content: ${({ isAlign }) => (isAlign ? 'center' : 'flex-end')};
-  margin-top: ${({ isAlign }) => (isAlign ? '24px' : '8px')};
-`;
-
 export const Text = styled.Text<TextProps>`
   font-size: ${RFValue(14)}px;
   color: ${({ theme }) => theme.colors.light_secondary};
   font-family: ${({ theme }) => theme.fonts.regular};
   margin-top: ${RFValue(16)};
 `;
-
-export const ContentButton = styled.View``;
