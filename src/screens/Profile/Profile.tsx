@@ -1,12 +1,18 @@
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import React, { useRef, useState } from 'react';
-import { ActivityIndicator, Pressable, Alert } from 'react-native';
+import { ActivityIndicator, Pressable, Alert, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import { FormHandles } from '@unform/core';
 import { theme } from '../../theme';
 import { Button } from '../../components';
 import Input from '../../components/Input/Input';
-import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
+
+import {
+  launchImageLibrary,
+  ImagePickerResponse,
+} from 'react-native-image-picker';
+
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
@@ -22,8 +28,25 @@ import {
 } from './styles';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { ProfileScreenNavigationProp } from '../../routes';
+import { RefObject } from 'react';
 
-export const Profile = ({ route }) => {
+export type ProfileProps = {
+  route: {
+    params: {
+      id: string;
+      name: string;
+      email: string;
+      thumbnail: string;
+    };
+  };
+};
+
+export type UserDocument = {
+  name: string;
+  email: string;
+};
+
+export const Profile = ({ route }: ProfileProps) => {
   const { name, email, thumbnail, id } = route.params;
 
   const [loadingUpdate, setLoadingUpdate] = useState(false);
@@ -35,11 +58,11 @@ export const Profile = ({ route }) => {
 
   const navigation = useNavigation<ProfileScreenNavigationProp>();
 
-  const formRef = useRef(null);
-  const emailInputRef = useRef(null);
-  const passwordInputRef = useRef(null);
+  const formRef = useRef<FormHandles>(null);
+  const emailInputRef = useRef<TextInput>(null);
+  const passwordInputRef = useRef<TextInput>(null);
 
-  const updateDocument = (props) => {
+  const updateDocument = (props: UserDocument) => {
     setLoadingUpdate(true);
 
     firestore()
@@ -67,7 +90,7 @@ export const Profile = ({ route }) => {
       });
   };
 
-  const updateThumnail = (props) => {
+  const updateThumnail = (props: string | undefined) => {
     setLoadingUpdate(true);
 
     firestore()
@@ -103,7 +126,7 @@ export const Profile = ({ route }) => {
         maxWidth: 2000,
         maxHeight: 2000,
       },
-      async (response) => {
+      async (response: ImagePickerResponse) => {
         const { uri } = response.assets[0];
 
         updateThumnail(uri);
