@@ -57,14 +57,6 @@ export const TouchableDelete = styled.TouchableOpacity`
   margin-top: ${RFValue(16)}px;
 `;
 
-export const Text = styled.Text<TextProps>`
-  font-size: ${RFValue(14)}px;
-  color: ${({ theme }) => theme.colors.light_secondary};
-  font-family: ${({ theme }) => theme.fonts.regular};
-  margin-right: 8px;
-  font-weight: ${({ isBold }) => (isBold ? 700 : 400)};
-`;
-
 export const TextDelete = styled.Text<TextProps>`
   font-size: ${RFValue(14)}px;
   color: ${({ theme }) => theme.colors.shape};

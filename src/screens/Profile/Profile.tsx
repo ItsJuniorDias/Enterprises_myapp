@@ -7,14 +7,14 @@ import { FormHandles } from '@unform/core';
 import { theme } from '../../theme';
 import { Button } from '../../components';
 import Input from '../../components/Input/Input';
-
 import {
   launchImageLibrary,
   ImagePickerResponse,
 } from 'react-native-image-picker';
-
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { ProfileScreenNavigationProp } from '../../routes';
 
 import {
   Container,
@@ -26,9 +26,6 @@ import {
   Thumbnail,
   WithoutThumbnail,
 } from './styles';
-import { RFValue } from 'react-native-responsive-fontsize';
-import { ProfileScreenNavigationProp } from '../../routes';
-import { RefObject } from 'react';
 
 export type ProfileProps = {
   route: {
@@ -47,6 +44,14 @@ export type UserDocument = {
 };
 
 export const Profile = ({ route }: ProfileProps) => {
+  const testIDs = useRef({
+    thumbnailPressable: 'thumbnail_pressable_testID',
+    inputName: 'input_name_testID',
+    inputEmail: 'input_email_testID',
+    buttonUpdate: 'button_update_testID',
+    buttonDelete: 'button_delete_testID',
+  }).current;
+
   const { name, email, thumbnail, id } = route.params;
 
   const [loadingUpdate, setLoadingUpdate] = useState(false);
@@ -90,7 +95,7 @@ export const Profile = ({ route }: ProfileProps) => {
       });
   };
 
-  const updateThumnail = (props: string | undefined) => {
+  const updateThumbnail = (props: string | undefined) => {
     setLoadingUpdate(true);
 
     firestore()
@@ -129,7 +134,7 @@ export const Profile = ({ route }: ProfileProps) => {
       async (response: ImagePickerResponse) => {
         const { uri } = response.assets[0];
 
-        updateThumnail(uri);
+        updateThumbnail(uri);
       }
     );
   };
@@ -149,8 +154,6 @@ export const Profile = ({ route }: ProfileProps) => {
             .doc(`${id}`)
             .delete()
             .then(() => {
-              console.log('User deleted!');
-
               const user = auth().currentUser;
 
               user?.delete().then(() => {
@@ -181,6 +184,7 @@ export const Profile = ({ route }: ProfileProps) => {
 
       <Content>
         <Pressable
+          testID={testIDs.thumbnailPressable}
           onPress={() => handleSelectImage()}
           style={({ pressed }) => [
             {
@@ -201,6 +205,7 @@ export const Profile = ({ route }: ProfileProps) => {
       <Body>
         <Form ref={formRef} onSubmit={() => updateDocument(user)}>
           <Input
+            testID={testIDs.inputName}
             name="name"
             icon="user"
             placeholder="Nome"
@@ -217,6 +222,7 @@ export const Profile = ({ route }: ProfileProps) => {
           />
 
           <Input
+            testID={testIDs.inputEmail}
             ref={emailInputRef}
             autoCorrect={false}
             autoCapitalize="none"
@@ -232,6 +238,7 @@ export const Profile = ({ route }: ProfileProps) => {
           />
 
           <Button
+            testID={testIDs.buttonUpdate}
             activeOpacity={0.6}
             onPress={() => {
               formRef.current?.submitForm();
@@ -245,6 +252,7 @@ export const Profile = ({ route }: ProfileProps) => {
           </Button>
 
           <TouchableDelete
+            testID={testIDs.buttonDelete}
             onPress={() => handleDeleteAccount()}
             activeOpacity={0.6}
           >
