@@ -2198,6 +2198,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-19.2.2.tgz#3edaffc453ccfbc3d37d755f94c65eaca7cb4718"
   integrity sha512-wROOJSoCdE8UpVzBtN/F/kDIVKK9xJnCs+8vzD3AWirSJEy4bIj4nGQhTag2IZtabQPHXTo8w3TIYNjlYesjtQ==
 
+"@react-native-google-signin/google-signin@^13.0.1":
+  version "13.0.1"
+  resolved "https://registry.yarnpkg.com/@react-native-google-signin/google-signin/-/google-signin-13.0.1.tgz#ab772f3f87d3908128a6fc549371f409f873978d"
+  integrity sha512-2if/G9X/Mq2qByps+kWJzgSkdFUuQUfNVekFr3XW7lBEg6ziUal4cuw+O74qcIfrh1KoRNmj2N2QxMiGPb5SkA==
+
 "@react-native/assets-registry@0.73.1":
   version "0.73.1"
   resolved "https://registry.npmjs.org/@react-native/assets-registry/-/assets-registry-0.73.1.tgz#e2a6b73b16c183a270f338dc69c36039b3946e85"
@@ -6904,6 +6909,11 @@ react-is@^17.0.1:
   version "17.0.2"
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
+
+react-native-fbsdk-next@^13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-fbsdk-next/-/react-native-fbsdk-next-13.0.0.tgz#d44d29352c2677626479dcd333b7a1671f04a1dc"
+  integrity sha512-Bfe2xFbtBPyX3aCgxb+NBGH9pLvb0NnlUnALkmkIU2++imdJN+aUpXRpMGyGm+OqApAEcELNBytYh9W3anR58g==
 
 react-native-gesture-handler@^2.15.0:
   version "2.15.0"

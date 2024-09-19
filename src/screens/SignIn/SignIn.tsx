@@ -5,9 +5,16 @@ import { FormHandles } from '@unform/core';
 import { useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
 import { getValidationErrors } from '../../utils/getValidationErrors';
+
 import Input from '../../components/Input/Input';
 import { Button, Loading } from '../../components';
+
+import auth from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
+
 import { useAuth } from '../../hooks';
+
 import iconGoogle from '../../assets/Google.png';
 import iconFacebook from '../../assets/Facebook.png';
 import forgotPassword from '../../assets/round-arrow_right_alt-24px.png';
@@ -84,6 +91,10 @@ export const SignIn = () => {
     }
   }, []);
 
+  const handleGoogleAuth = useCallback(async () => {}, []);
+
+  const handleFacebookAuth = useCallback(async () => {}, []);
+
   return (
     <>
       {loading && <Loading />}
@@ -159,11 +170,17 @@ export const SignIn = () => {
               <TextFooter>Ou faça login com sua conta</TextFooter>
 
               <Row>
-                <TouchableOpacity activeOpacity={0.6}>
+                <TouchableOpacity
+                  onPress={() => handleGoogleAuth()}
+                  activeOpacity={0.6}
+                >
                   <Image source={iconGoogle} />
                 </TouchableOpacity>
 
-                <TouchableOpacity activeOpacity={0.6}>
+                <TouchableOpacity
+                  onPress={() => handleFacebookAuth()}
+                  activeOpacity={0.6}
+                >
                   <Image source={iconFacebook} />
                 </TouchableOpacity>
               </Row>
