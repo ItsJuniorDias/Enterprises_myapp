@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { TextInput, Alert, Image, TouchableOpacity } from 'react-native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
@@ -9,11 +9,12 @@ import { getValidationErrors } from '../../utils/getValidationErrors';
 import Input from '../../components/Input/Input';
 import { Button, Loading } from '../../components';
 
-import auth from '@react-native-firebase/auth';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
-import { useAuth } from '../../hooks';
+import { AuthActionEnum, useAuth } from '../../hooks';
 
 import iconGoogle from '../../assets/Google.png';
 import iconFacebook from '../../assets/Facebook.png';
@@ -31,10 +32,19 @@ import {
   Row,
 } from './styles';
 import { ProfileScreenNavigationProp } from '../../routes';
+import { IOS_CLIENT_ID, WEB_CLIENT_ID } from '@env';
+
 interface SignInFormData {
   email: string;
   password: string;
 }
+
+GoogleSignin.configure({
+  webClientId: WEB_CLIENT_ID,
+  iosClientId: IOS_CLIENT_ID,
+
+  scopes: ['email', 'profile'],
+});
 
 export const SignIn = () => {
   const testIDs = useRef({
@@ -47,7 +57,7 @@ export const SignIn = () => {
 
   const navigation = useNavigation<ProfileScreenNavigationProp>();
 
-  const { login } = useAuth();
+  const { login, dispatchAuthState } = useAuth();
 
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
@@ -91,9 +101,34 @@ export const SignIn = () => {
     }
   }, []);
 
-  const handleGoogleAuth = useCallback(async () => {}, []);
+  const handleGoogleAuth = async () => {
+    try {
+      console.log('RESPONSE');
 
-  const handleFacebookAuth = useCallback(async () => {}, []);
+      const { data } = await GoogleSignin.signIn();
+
+      console.log(data, 'RESPONSE DATA');
+
+      // dispatchAuthState({
+      //   type: AuthActionEnum.CREATE,
+      //   payload: {
+      //     user: {
+      //       id: data?.user.id,
+      //       name: data?.user.name,
+      //       thumbnail: data?.user.photo,
+      //       email: data?.user.email,
+      //     },
+      //     loading: true,
+      //   },
+      // });
+
+      navigation.navigate('Home');
+    } catch (error) {
+      console.log(error, 'ERROR');
+    }
+  };
+
+  const handleFacebookAuth = () => {};
 
   return (
     <>
