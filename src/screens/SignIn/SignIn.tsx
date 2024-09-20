@@ -103,26 +103,25 @@ export const SignIn = () => {
 
   const handleGoogleAuth = async () => {
     try {
-      console.log('RESPONSE');
-
       const { data } = await GoogleSignin.signIn();
 
       console.log(data, 'RESPONSE DATA');
 
-      // dispatchAuthState({
-      //   type: AuthActionEnum.CREATE,
-      //   payload: {
-      //     user: {
-      //       id: data?.user.id,
-      //       name: data?.user.name,
-      //       thumbnail: data?.user.photo,
-      //       email: data?.user.email,
-      //     },
-      //     loading: true,
-      //   },
-      // });
+      if (data !== null) {
+        dispatchAuthState({
+          type: AuthActionEnum.UPDATE_USER,
+          payload: {
+            user: {
+              id: data?.user.id,
+              name: data?.user.name,
+              thumbnail: data?.user.photo,
+              email: data?.user.email,
+            },
+          },
+        });
 
-      navigation.navigate('Home');
+        navigation.navigate('Home');
+      }
     } catch (error) {
       console.log(error, 'ERROR');
     }

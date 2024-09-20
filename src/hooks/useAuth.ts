@@ -10,7 +10,7 @@ import { onAuthStateChanged } from '../utils';
 
 export enum AuthActionEnum {
   CREATE = 'CREATE',
-  UPDATE_PHOTO_USER = 'UPATE_PHOTO_USER',
+  UPDATE_USER = 'UPDATE_USER',
   LOADING = 'LOADING',
   LOGGED = 'LOGGED',
   LOGOUT = 'LOGOUT',
@@ -26,7 +26,7 @@ export type AuthAction =
       };
     }
   | {
-      type: AuthActionEnum.UPDATE_PHOTO_USER;
+      type: AuthActionEnum.UPDATE_USER;
       payload: {
         user: DataUser;
       };
@@ -47,7 +47,7 @@ export type AuthAction =
     };
 
 export type User = {
-  id?: string;
+  id: string | undefined;
   name: string | undefined;
   email: string | undefined;
   thumbnail: string | undefined;
@@ -90,7 +90,7 @@ const reducer = (state: AuthState, action: AuthAction): AuthState => {
         user,
         loading,
       };
-    case AuthActionEnum.UPDATE_PHOTO_USER:
+    case AuthActionEnum.UPDATE_USER:
       return {
         ...state,
         user: payload?.user?.data?.user,
