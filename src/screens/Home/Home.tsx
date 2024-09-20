@@ -155,7 +155,7 @@ export const Home = ({ route }: HomeProps) => {
       <Header>
         <View>
           <RowThumbnail
-            onPress={() => navigation.navigate('Profile', user)}
+            onPress={() => navigation.navigate('Profile', params?.user)}
             style={({ pressed }) => [
               {
                 opacity: pressed ? 0.6 : 1,
