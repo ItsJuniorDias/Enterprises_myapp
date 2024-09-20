@@ -14,6 +14,7 @@ import {
   ItemEnterprise,
   useAuth,
   useEnterprises,
+  User,
 } from '../../hooks';
 
 import {
@@ -40,10 +41,20 @@ export type DataItemProps = {
   _data: EnterpriseProps;
 };
 
-export const Home = () => {
+export type HomeProps = {
+  route: {
+    params: {
+      user: User | undefined;
+    };
+  };
+};
+
+export const Home = ({ route }: HomeProps) => {
+  const params = route?.params;
+
   const navigation = useNavigation<ProfileScreenNavigationProp>();
 
-  const { logout, user } = useAuth();
+  const { logout } = useAuth();
   const { state, dispatch } = useEnterprises();
 
   const handleExit = () => {
@@ -151,18 +162,18 @@ export const Home = () => {
               },
             ]}
           >
-            {!user.thumbnail ? (
+            {!params?.user?.thumbnail ? (
               <WithoutThumbnail>
                 <Icon name={'user'} size={20} color={'#FFFFFF'} />
               </WithoutThumbnail>
             ) : (
               <Thumbnail
                 resizeMode="cover"
-                source={{ uri: `${user.thumbnail}` }}
+                source={{ uri: `${params?.user?.thumbnail}` }}
               />
             )}
 
-            <Title>Olá, {user.name}!</Title>
+            <Title>Olá, {params?.user?.name}!</Title>
           </RowThumbnail>
 
           <Description>Bem-vindo(a)</Description>

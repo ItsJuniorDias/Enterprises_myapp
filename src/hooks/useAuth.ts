@@ -4,9 +4,14 @@ import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import { FormHandles } from '@unform/core';
-import { CreateUserProps, LoginProps } from '../@types';
+import {
+  CreateUserGoogleSignInProps,
+  CreateUserProps,
+  LoginProps,
+} from '../@types';
 import { ProfileScreenNavigationProp } from '../routes';
 import { onAuthStateChanged } from '../utils';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 export enum AuthActionEnum {
   CREATE = 'CREATE',
@@ -47,10 +52,10 @@ export type AuthAction =
     };
 
 export type User = {
-  id: string | undefined;
-  name: string | undefined;
-  email: string | undefined;
-  thumbnail: string | undefined;
+  id: string | null;
+  name: string | null;
+  email: string | null;
+  thumbnail: string | null;
 };
 
 export type DataUser = {
@@ -72,6 +77,7 @@ type UseAuth = {
   user: User;
   loading: boolean;
   createUser: (props: CreateUserProps) => void;
+  createGoogleSignIn: (props: CreateUserGoogleSignInProps) => void;
   login: (props: LoginProps) => void;
   logout: () => Promise<void>;
   formRef: RefObject<FormHandles>;
@@ -123,8 +129,6 @@ export const useAuth = (): UseAuth => {
     loading: true,
   });
 
-  const [initializing, setInitializing] = useState(true);
-
   const formRef = useRef<FormHandles>(null);
 
   useEffect(() => {
@@ -159,37 +163,37 @@ export const useAuth = (): UseAuth => {
       let errorAlreadyInUse: boolean = false;
 
       if (errorAlreadyInUse) {
+        auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then((response) => {
+            user = response._user;
+
+            return;
+          })
+          .catch((err) => {
+            errorAlreadyInUse = err.code;
+
+            if (err.code === 'auth/email-already-in-use') {
+              Alert.alert('Erro no cadastro', 'email já cadastrado', [
+                {
+                  text: 'Cancelar',
+                  onPress: () => {},
+                  style: 'cancel',
+                },
+                {
+                  text: 'OK',
+                  onPress: () =>
+                    dispatchAuthState({
+                      type: AuthActionEnum.LOADING,
+                      payload: {
+                        loading: true,
+                      },
+                    }),
+                },
+              ]);
+            }
+          });
       }
-      auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((response) => {
-          user = response._user;
-
-          return;
-        })
-        .catch((err) => {
-          errorAlreadyInUse = err.code;
-
-          if (err.code === 'auth/email-already-in-use') {
-            Alert.alert('Erro no cadastro', 'email já cadastrado', [
-              {
-                text: 'Cancelar',
-                onPress: () => {},
-                style: 'cancel',
-              },
-              {
-                text: 'OK',
-                onPress: () =>
-                  dispatchAuthState({
-                    type: AuthActionEnum.LOADING,
-                    payload: {
-                      loading: true,
-                    },
-                  }),
-              },
-            ]);
-          }
-        });
 
       dispatchAuthState({
         type: AuthActionEnum.CREATE,
@@ -230,6 +234,39 @@ export const useAuth = (): UseAuth => {
     }
   };
 
+  const createGoogleSignIn = async ({
+    email,
+    name,
+    thumbnail,
+  }: CreateUserGoogleSignInProps) => {
+    dispatchAuthState({
+      type: AuthActionEnum.LOADING,
+      payload: {
+        loading: false,
+      },
+    });
+
+    const { _documentPath } = await firestore().collection('users').add({
+      id: '',
+      email,
+      thumbnail,
+      name,
+    });
+
+    dispatchAuthState({
+      type: AuthActionEnum.CREATE,
+      payload: {
+        user: {
+          id: _documentPath._parts[1],
+          email,
+          thumbnail,
+          name,
+        },
+        loading: true,
+      },
+    });
+  };
+
   const login = async (props: LoginProps) => {
     const { email, password } = props;
 
@@ -237,6 +274,8 @@ export const useAuth = (): UseAuth => {
   };
 
   const logout = async (): Promise<void> => {
+    await GoogleSignin.signOut();
+
     await auth().signOut();
   };
 
@@ -244,6 +283,7 @@ export const useAuth = (): UseAuth => {
     ...authState,
     dispatchAuthState,
     createUser,
+    createGoogleSignIn,
     formRef,
     login,
     logout,

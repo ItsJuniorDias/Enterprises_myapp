@@ -1,5 +1,11 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { TextInput, Alert, Image, TouchableOpacity } from 'react-native';
+import {
+  TextInput,
+  Alert,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import { useNavigation } from '@react-navigation/native';
@@ -57,10 +63,12 @@ export const SignIn = () => {
 
   const navigation = useNavigation<ProfileScreenNavigationProp>();
 
-  const { login, dispatchAuthState } = useAuth();
+  const { login, createGoogleSignIn, user } = useAuth();
 
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
+
+  const isIOS = Platform.OS === 'ios';
 
   const handleSignIn = useCallback(async (data: SignInFormData) => {
     try {
@@ -103,24 +111,28 @@ export const SignIn = () => {
 
   const handleGoogleAuth = async () => {
     try {
-      const { data } = await GoogleSignin.signIn();
+      if (!isIOS) {
+        const { data } = await GoogleSignin.signIn();
 
-      console.log(data, 'RESPONSE DATA');
+        console.log(data, 'RESPONSE DATA');
 
-      if (data !== null) {
-        dispatchAuthState({
-          type: AuthActionEnum.UPDATE_USER,
-          payload: {
+        if (data !== null) {
+          createGoogleSignIn({
+            id: '',
+            email: data.user.email,
+            name: data.user.name,
+            thumbnail: data.user.photo,
+          });
+
+          navigation.navigate('Home', {
             user: {
-              id: data?.user.id,
-              name: data?.user.name,
-              thumbnail: data?.user.photo,
-              email: data?.user.email,
+              id: '',
+              email: data.user.email,
+              name: data.user.name,
+              thumbnail: data.user.photo,
             },
-          },
-        });
-
-        navigation.navigate('Home');
+          });
+        }
       }
     } catch (error) {
       console.log(error, 'ERROR');
