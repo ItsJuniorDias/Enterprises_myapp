@@ -13,7 +13,14 @@ import {
 import { ItemEnterprise, User } from '../hooks';
 
 export type RootStackParamList = {
-  Home: undefined;
+  Home: {
+    user: {
+      id: string;
+      email: string;
+      name: string | null;
+      thumbnail: string | null;
+    };
+  };
   SignUp: undefined;
   SignIn: undefined;
   Profile: User;
