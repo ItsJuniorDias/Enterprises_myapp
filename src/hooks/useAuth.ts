@@ -223,7 +223,7 @@ export const useAuth = (): UseAuth => {
               console.log(e);
             });
 
-          return navigation.navigate('Home');
+          return navigation.navigate('Home', user);
         }, 2000);
       }
     } else {

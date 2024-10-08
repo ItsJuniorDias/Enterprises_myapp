@@ -9,6 +9,7 @@ import {
   SignUp,
   Profile,
   ForgetPassword,
+  PaymentScreen,
 } from '../screens';
 import { ItemEnterprise, User } from '../hooks';
 
@@ -26,6 +27,7 @@ export type RootStackParamList = {
   Profile: User;
   Show: ItemEnterprise;
   ForgetPassword: undefined;
+  PaymentScreen: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -47,6 +49,7 @@ const AuthRoutes = () => (
     <Stack.Screen name="SignUp" component={SignUp} />
     <Stack.Screen name="Profile" component={Profile} />
     <Stack.Screen name="Home" component={Home} />
+    <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
     <Stack.Screen name="Show" component={Show} />
     <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
   </Stack.Navigator>

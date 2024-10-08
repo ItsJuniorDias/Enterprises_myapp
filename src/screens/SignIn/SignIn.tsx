@@ -91,7 +91,9 @@ export const SignIn = () => {
 
       setLoading(false);
 
-      navigation.navigate('Home');
+      navigation.navigate('Home', {
+        user,
+      });
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);

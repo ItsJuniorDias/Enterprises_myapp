@@ -39,7 +39,14 @@ export const onAuthStateChanged = ({
     });
 
     if (user) {
-      return navigation.navigate('Home');
+      return navigation.navigate('Home', {
+        user: {
+          id: findUserLogged.id,
+          name: findUserLogged.name,
+          email: findUserLogged.email,
+          thumbnail: findUserLogged.thumbnail,
+        },
+      });
     }
   });
 };
