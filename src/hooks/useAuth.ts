@@ -162,6 +162,8 @@ export const useAuth = (): UseAuth => {
 
       let errorAlreadyInUse: boolean = false;
 
+      console.log('TESTE');
+
       if (errorAlreadyInUse) {
         auth()
           .createUserWithEmailAndPassword(email, password)
